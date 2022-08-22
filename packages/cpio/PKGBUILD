@@ -1,0 +1,46 @@
+pkgname=cpio
+pkgver=2.13
+pkgrel=1
+pkgdesc="A tool to copy files into or out of a cpio or tar archive"
+arch=('x86_64')
+url="https://www.gnu.org/software/cpio"
+source=($pkgname-$pkgver.tar.bz2)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -i '/The name/,+2 d' src/global.c
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr \
+            --enable-mt   \
+            --with-rmt=/usr/libexec/rmt
+    make
+    makeinfo --html            -o doc/html      doc/cpio.texi
+    makeinfo --html --no-split -o doc/cpio.html doc/cpio.texi
+    makeinfo --plaintext       -o doc/cpio.txt  doc/cpio.texi
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd $srcdir/$pkgname-$pkgver
+    make DESTDIR=$pkgdir install
+    install -v -m755 -d $pkgdir/usr/share/doc/cpio-2.13/html
+    install -v -m644    doc/html/* \
+    $pkgdir/usr/share/doc/cpio-2.13/html
+    install -v -m644    doc/cpio.{html,txt} \
+    $pkgdir/usr/share/doc/cpio-2.13
+ 
+}
