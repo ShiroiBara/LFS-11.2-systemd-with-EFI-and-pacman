@@ -1,0 +1,55 @@
+pkgname=perl
+pkgver=5.34.0
+pkgrel=1
+pkgdesc="A highly capable, feature-rich programming language"
+arch=('x86_64')
+url="http://www.perl.org"
+source=($pkgname-$pkgver.tar.xz
+$pkgname-$pkgver-upstream_fixes-1.patch)
+md5sums=('SKIP'
+'SKIP')
+license=('GPL' 'PerlArtistic')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    patch -Np1 -i ../$pkgname-$pkgver-upstream_fixes-1.patch
+    export BUILD_ZLIB=False
+    export BUILD_BZIP2=0
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sh Configure -des                                         \
+             -Dprefix=/usr                                \
+             -Dvendorprefix=/usr                          \
+             -Dprivlib=/usr/lib/perl5/5.34/core_perl      \
+             -Darchlib=/usr/lib/perl5/5.34/core_perl      \
+             -Dsitelib=/usr/lib/perl5/5.34/site_perl      \
+             -Dsitearch=/usr/lib/perl5/5.34/site_perl     \
+             -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl  \
+             -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl \
+             -Dman1dir=/usr/share/man/man1                \
+             -Dman3dir=/usr/share/man/man3                \
+             -Dpager="/usr/bin/less -isR"                 \
+             -Duseshrplib                                 \
+             -Dusethreads
+    make -j3
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    unset BUILD_ZLIB BUILD_BZIP2
+
+}

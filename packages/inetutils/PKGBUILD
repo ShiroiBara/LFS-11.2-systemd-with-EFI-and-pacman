@@ -1,0 +1,47 @@
+pkgname=inetutils
+pkgver=2.2
+pkgrel=1
+pkgdesc="A collection of common network programs"
+arch=('x86_64')
+url="http://www.gnu.org/software/inetutils/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr        \
+    --bindir=/usr/bin    \
+    --localstatedir=/var \
+    --disable-logger     \
+    --disable-whois      \
+    --disable-rcp        \
+    --disable-rexec      \
+    --disable-rlogin     \
+    --disable-rsh        \
+    --disable-servers
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -vdm755 $pkgdir/usr/sbin
+    mv -v $pkgdir/usr/{,s}bin/ifconfig
+
+}

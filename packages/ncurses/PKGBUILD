@@ -1,0 +1,59 @@
+pkgname=ncurses
+pkgver=6.3
+pkgrel=1
+pkgdesc="System V Release 4.0 curses emulation library"
+arch=('x86_64')
+url="http://invisible-island.net/ncurses/ncurses.html"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('MIT')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr           \
+    --mandir=/usr/share/man \
+    --with-shared           \
+    --without-debug         \
+    --without-normal        \
+    --enable-pc-files       \
+    --enable-widec          \
+    --with-pkg-config-libdir=/usr/lib/pkgconfig
+    make
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$PWD/dest install
+    install -vdm755 $pkgdir/usr/lib
+    install -vm755 dest/usr/lib/libncursesw.so.6.3 $pkgdir/usr/lib
+    rm -v  dest/usr/lib/{libncursesw.so.6.3,libncurses++w.a}
+    cp -av dest/* $pkgdir
+
+    for lib in ncurses form panel menu ; do
+        rm -vf                      $pkgdir/usr/lib/lib${lib}.so
+        echo "INPUT(-l${lib}w)" >   $pkgdir/usr/lib/lib${lib}.so
+        ln -sfv ${lib}w.pc          $pkgdir/usr/lib/pkgconfig/${lib}.pc
+    done
+
+    rm -vf                          $pkgdir/usr/lib/libcursesw.so
+    echo "INPUT(-lncursesw)" >      $pkgdir/usr/lib/libcursesw.so
+    ln -sfv libncurses.so           $pkgdir/usr/lib/libcurses.so
+
+    install -vdm755         $pkgdir/usr/share/doc/ncurses-6.3
+    cp -v -R doc/*          $pkgdir/usr/share/doc/ncurses-6.3
+
+}

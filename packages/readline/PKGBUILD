@@ -1,0 +1,40 @@
+pkgname=readline
+pkgver=8.1.2
+pkgrel=1
+pkgdesc="GNU readline library"
+arch=('x86_64')
+url="http://tiswww.case.edu/php/chet/readline/rltop.html"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -i '/MV.*old/d' Makefile.in
+    sed -i '/{OLDSUFF}/c:' support/shlib-install
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr    \
+    --disable-static \
+    --with-curses    \
+    --docdir=/usr/share/doc/readline-8.1.2
+    make SHLIB_LIBS="-lncursesw"
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir SHLIB_LIBS="-lncursesw" install
+    install -v -m644 doc/*.{ps,pdf,html,dvi} $pkgdir/usr/share/doc/readline-8.1.2
+    
+}

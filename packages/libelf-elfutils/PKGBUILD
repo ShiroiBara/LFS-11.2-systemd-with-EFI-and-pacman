@@ -1,0 +1,41 @@
+pkgname=libelf-elfutils
+archive=elfutils
+pkgver=0.186
+pkgrel=1
+pkgdesc="A library for handling ELF files"
+arch=('x86_64')
+url="https://sourceware.org/elfutils/"
+source=($archive-$pkgver.tar.bz2)
+md5sums=('SKIP')
+license=('GPL3' 'LGPL3')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+    ./configure --prefix=/usr    \
+    --disable-debuginfod         \
+    --enable-libdebuginfod=dummy
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$archive-$pkgver"
+    make -C libelf DESTDIR=$pkgdir install
+    install -vdm755 $pkgdir/usr/lib/pkgconfig
+    install -vm644 config/libelf.pc $pkgdir/usr/lib/pkgconfig
+
+}

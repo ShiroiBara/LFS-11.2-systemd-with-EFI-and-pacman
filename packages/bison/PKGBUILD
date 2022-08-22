@@ -1,0 +1,38 @@
+pkgname=bison
+pkgver=3.8.2
+pkgrel=1
+pkgdesc="The GNU general-purpose parser generator"
+arch=('x86_64')
+url="http://www.gnu.org/software/bison/bison.html"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr    \
+    --disable-static \
+    --docdir=/usr/share/doc/gettext-0.21
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

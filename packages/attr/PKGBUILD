@@ -1,0 +1,39 @@
+pkgname=attr
+pkgver=2.5.1
+pkgrel=1
+pkgdesc="Extended attribute support library for ACL support"
+arch=('x86_64')
+url="http://savannah.nongnu.org/projects/attr"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('LGPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr     \
+    --disable-static  \
+    --sysconfdir=/etc \
+    --docdir=/usr/share/doc/attr-2.5.1
+    make 
+    
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+ 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    
+}

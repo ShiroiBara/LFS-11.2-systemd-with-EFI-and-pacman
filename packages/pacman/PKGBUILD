@@ -1,0 +1,49 @@
+pkgname=pacman
+pkgver=6.0.1
+pkgrel=1
+pkgdesc="A library-based package manager with dependency support"
+arch=('x86_64')
+url="http://www.archlinux.org/pacman/"
+source=($pkgname-$pkgver.tar.xz
+makepkg.conf
+pacman.conf)
+md5sums=('SKIP'
+'SKIP'
+'SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    meson --prefix=/usr \
+    --buildtype=plain \
+    -Ddoc=disabled \
+    -Ddoxygen=enabled \
+    -Dscriptlet-shell=/usr/bin/bash \
+    -Dldconfig=/usr/bin/ldconfig \
+    build
+    meson compile -C build
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    DESTDIR=$pkgdir meson install -C build
+    install -dm755  $pkgdir/etc
+    install -m644   $srcdir/pacman.conf     $pkgdir/etc
+    install -m644   $srcdir/makepkg.conf    $pkgdir/etc
+
+}

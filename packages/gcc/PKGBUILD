@@ -1,0 +1,61 @@
+pkgname=gcc
+pkgver=11.2.0
+pkgrel=1
+pkgdesc="The GNU Compiler Collection"
+arch=('x86_64')
+url="http://gcc.gnu.org"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -e '/static.*SIGSTKSZ/d' \
+    -e 's/return kAltStackSize/return SIGSTKSZ * 4/' \
+    -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
+    case $(uname -m) in
+    x86_64)
+    sed -e '/m64=/s/lib64/lib/' \
+    -i.orig gcc/config/i386/t-linux64
+    ;;
+    esac
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    mkdir -v build
+    cd       build
+    ../configure --prefix=/usr            \
+             LD=ld                    \
+             --enable-languages=c,c++ \
+             --disable-multilib       \
+             --disable-bootstrap      \
+             --with-system-zlib
+    make -j3
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver/build"
+    ulimit -s 32768 
+    make -j3 -k check || true
+    ../contrib/test_summary
+    read -p "Please check test results and press any key to continue... " -n1 -s
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver/build"
+    make DESTDIR=$pkgdir install
+    rm -rf $pkgdir/usr/lib/gcc/$(gcc -dumpmachine)/$pkgver/include-fixed/bits/
+    install -vdm755 $pkgdir/usr/lib/bfd-plugins/    
+    ln -svr $pkgdir/usr/bin/cpp $pkgdir/usr/lib    
+    ln -sfv ../../libexec/gcc/$($pkgdir/usr/bin/gcc -dumpmachine)/$pkgver/liblto_plugin.so \
+    $pkgdir/usr/lib/bfd-plugins/
+    install -vdm755 $pkgdir/usr/share/gdb/auto-load/usr/lib
+    mv -v $pkgdir/usr/lib/*gdb.py $pkgdir/usr/share/gdb/auto-load/usr/lib
+
+}

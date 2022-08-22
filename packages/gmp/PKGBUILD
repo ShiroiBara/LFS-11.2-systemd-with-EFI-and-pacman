@@ -1,0 +1,43 @@
+pkgname=gmp
+pkgver=6.2.1
+pkgrel=1
+pkgdesc="A free library for arbitrary precision arithmetic"
+arch=('x86_64')
+url="http://gmplib.org"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL' 'LGP3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr    \
+    --enable-cxx     \
+    --disable-static \
+    --docdir=/usr/share/doc/gmp-6.2.1
+    make -j3 
+    make html
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make check 2>&1 | tee gmp-check-log
+    awk '/# PASS:/{total+=$3} ; END{print total}' gmp-check-log
+    read -p "Please check test results and press any key to continue... " -n1 -s
+ 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    make DESTDIR=$pkgdir install-html
+    
+}

@@ -1,0 +1,36 @@
+pkgname=groff
+pkgver=1.22.4
+pkgrel=1
+pkgdesc="GNU troff text-formatting system"
+arch=('x86_64')
+url="https://www.gnu.org/software/groff/groff.html"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    PAGE=A4 ./configure --prefix=/usr
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

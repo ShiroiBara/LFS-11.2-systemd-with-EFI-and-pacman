@@ -1,0 +1,39 @@
+pkgname=expect
+pkgver=5.45.4
+pkgrel=1
+pkgdesc="A tool for automating interactive applications"
+arch=('x86_64')
+url="https://www.nist.gov/el/msid/expect.cfm"
+source=($pkgname$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('custom')
+
+prepare() {
+
+    cd "$srcdir/$pkgname$pkgver"
+}
+
+build() {
+
+    cd "$srcdir/$pkgname$pkgver"
+    ./configure --prefix=/usr           \
+    --with-tcl=/usr/lib     \
+    --enable-shared         \
+    --mandir=/usr/share/man \
+    --with-tclinclude=/usr/include
+    make
+    
+}
+
+check() {
+
+    cd "$srcdir/$pkgname$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname$pkgver"
+    make DESTDIR=$pkgdir install
+    ln -svf expect5.45.4/libexpect5.45.4.so $pkgdir/usr/lib
+    
+}

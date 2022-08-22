@@ -1,0 +1,45 @@
+pkgname=tzdata
+pkgver=2021e
+pkgrel=1
+pkgdesc="Sources for time zone and daylight saving time data"
+arch=('x86_64')
+url="http://www.iana.org/time-zones"
+license=('GPL')
+source=($pkgname$pkgver.tar.gz)
+md5sums=('SKIP')
+
+prepare() {
+
+    cd "$srcdir"
+
+}
+
+build() {
+
+    cd "$srcdir"
+
+}
+
+check() {
+
+    cd "$srcdir" 
+}
+
+package() {
+
+    cd "$srcdir"
+    ZONEINFO=$pkgdir/usr/share/zoneinfo
+    install -vdm755 $ZONEINFO/{posix,right}
+
+    for tz in etcetera southamerica northamerica europe africa antarctica  \
+              asia australasia backward; do
+	zic -L /dev/null   -d $ZONEINFO       ${tz}
+	zic -L /dev/null   -d $ZONEINFO/posix ${tz}
+	zic -L leapseconds -d $ZONEINFO/right ${tz}
+    done
+
+    cp -v zone.tab zone1970.tab iso3166.tab $ZONEINFO
+    zic -d $ZONEINFO -p America/New_York
+    unset ZONEINFO
+    
+}

@@ -1,0 +1,36 @@
+pkgname=automake
+pkgver=1.16.5
+pkgrel=1
+pkgdesc="A GNU tool for automatically creating Makefiles"
+arch=('x86_64')
+url="http://www.gnu.org/software/automake"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.5
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

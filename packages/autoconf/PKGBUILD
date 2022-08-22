@@ -1,0 +1,36 @@
+pkgname=autoconf
+pkgver=2.71
+pkgrel=1
+pkgdesc="A GNU tool for automatically configuring source code"
+arch=('x86_64')
+url="http://www.gnu.org/software/autoconf"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

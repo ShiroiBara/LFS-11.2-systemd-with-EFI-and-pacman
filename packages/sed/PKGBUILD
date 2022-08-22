@@ -1,0 +1,39 @@
+pkgname=sed
+pkgver=4.8
+pkgrel=1
+pkgdesc="GNU stream editor"
+arch=('x86_64')
+url="https://www.gnu.org/software/sed/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make
+    make html
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -d -m755            $pkgdir/usr/share/doc/sed-4.8
+    install -m644 doc/sed.html  $pkgdir/usr/share/doc/sed-4.8
+
+}

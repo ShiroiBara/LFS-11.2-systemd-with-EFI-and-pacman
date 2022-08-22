@@ -1,0 +1,41 @@
+pkgname=mpc
+pkgver=1.2.1
+pkgrel=1
+pkgdesc="Library for the arithmetic of complex numbers with arbitrarily high precision"
+arch=('x86_64')
+url="http://www.multiprecision.org"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('LGPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr    \
+    --disable-static \
+    --docdir=/usr/share/doc/mpc-1.2.1
+    make -j3 
+    make html
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make -j3 -k check  || true
+    read -p "Please check test results and press any key to continue... " -n1 -s
+ 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    make DESTDIR=$pkgdir install-html
+    
+}

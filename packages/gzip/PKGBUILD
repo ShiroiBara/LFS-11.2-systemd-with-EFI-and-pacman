@@ -1,0 +1,36 @@
+pkgname=gzip
+pkgver=1.11
+pkgrel=1
+pkgdesc="GNU compression utility"
+arch=('x86_64')
+url="http://www.gnu.org/software/gzip/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

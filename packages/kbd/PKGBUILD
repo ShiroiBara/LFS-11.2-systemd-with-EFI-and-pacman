@@ -1,0 +1,43 @@
+pkgname=kbd
+pkgver=2.4.0
+pkgrel=1
+pkgdesc="Keytable files and keyboard utilities"
+arch=('x86_64')
+url="http://www.kbd-project.org/"
+source=($pkgname-$pkgver.tar.xz
+$pkgname-$pkgver-backspace-1.patch)
+md5sums=('SKIP'
+'SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    patch -Np1 -i ../kbd-2.4.0-backspace-1.patch
+    sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
+    sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr --disable-vlock
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -vdm750             $pkgdir/usr/share/doc/kbd-2.4.0
+    cp -R -v docs/doc/*         $pkgdir/usr/share/doc/kbd-2.4.0
+
+}

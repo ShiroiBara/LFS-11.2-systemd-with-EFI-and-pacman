@@ -1,0 +1,33 @@
+pkgname=iana-etc
+pkgver=20220207
+pkgrel=1
+pkgdesc="/etc/protocols and /etc/services provided by IANA"
+arch=('x86_64')
+url="http://www.iana.org/protocols"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    install -vdm755 $pkgdir/etc
+    cp services protocols $pkgdir/etc
+    
+}

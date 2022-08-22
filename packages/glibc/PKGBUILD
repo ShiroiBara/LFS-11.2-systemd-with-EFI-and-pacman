@@ -1,0 +1,65 @@
+pkgname=glibc
+pkgver=2.35
+pkgrel=1
+pkgdesc="GNU C Library"
+arch=('x86_64')
+url="http://www.gnu.org/software/libc"
+source=($pkgname-$pkgver.tar.xz
+glibc-2.35-fhs-1.patch
+ld.so.conf
+nsswitch.conf)
+md5sums=('SKIP'
+'SKIP'
+'SKIP'
+'SKIP')
+install=locale.install
+options=(staticlibs)
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    patch -Np1 -i ../glibc-2.35-fhs-1.patch
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    mkdir -v build
+    cd       build
+    echo "rootsbindir=/usr/sbin" > configparms
+    ../configure --prefix=/usr                            \
+             --disable-werror                         \
+             --enable-kernel=3.2                      \
+             --enable-stack-protector=strong          \
+             --with-headers=/usr/include              \
+             libc_cv_slibdir=/usr/lib
+    make -j3
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver/build" 
+    make -j3 -k check || true
+    read -p "Please check test results and press any key to continue... " -n1 -s
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver/build"
+    install -vdm755 $pkgdir/etc
+    touch $pkgdir/etc/ld.so.conf
+    sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
+    make DESTDIR=$pkgdir install
+    sed '/RTLDLIST=/s@/usr@@g' -i $pkgdir/usr/bin/ldd
+    cp -v ../nscd/nscd.conf $pkgdir/etc/nscd.conf
+    install -vdm755 $pkgdir/var/cache/nscd
+    install -v -Dm644 ../nscd/nscd.tmpfiles $pkgdir/usr/lib/tmpfiles.d/nscd.conf
+    install -v -Dm644 ../nscd/nscd.service  $pkgdir/usr/lib/systemd/system/nscd.service
+    install -v -dm755 $pkgdir/usr/lib/locale
+    install -vm644 $srcdir/nsswitch.conf    $pkgdir/etc/nsswitch.conf
+    install -vm644 $srcdir/ld.so.conf       $pkgdir/etc/ld.so.conf
+    install -vdm644 /etc/ld.so.conf.d
+
+}

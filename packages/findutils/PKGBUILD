@@ -1,0 +1,39 @@
+pkgname=findutils
+pkgver=4.9.0
+pkgrel=1
+pkgdesc="GNU utilities to locate files"
+arch=('x86_64')
+url="https://www.gnu.org/software/findutils"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    case $(uname -m) in
+        i?86)   TIME_T_32_BIT_OK=yes ./configure --prefix=/usr --localstatedir=/var/lib/locate ;;
+        x86_64) ./configure --prefix=/usr --localstatedir=/var/lib/locate ;;
+    esac
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

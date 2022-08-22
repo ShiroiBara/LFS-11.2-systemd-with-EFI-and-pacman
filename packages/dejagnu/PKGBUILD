@@ -1,0 +1,39 @@
+pkgname=dejagnu
+pkgver=1.6.3
+pkgrel=1
+pkgdesc="Framework for testing other programs"
+arch=('x86_64')
+url="https://www.gnu.org/software/dejagnu/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    mkdir -v build
+    cd       build
+    ../configure --prefix=/usr
+    makeinfo --html --no-split -o doc/dejagnu.html ../doc/dejagnu.texi
+    makeinfo --plaintext       -o doc/dejagnu.txt  ../doc/dejagnu.texi
+    
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver/build"
+    make DESTDIR=$pkgdir install
+    install -v -dm755  $pkgdir/usr/share/doc/dejagnu-1.6.3
+    install -v -m644   doc/dejagnu.{html,txt} $pkgdir/usr/share/doc/dejagnu-1.6.3
+    
+}

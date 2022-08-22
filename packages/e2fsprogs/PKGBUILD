@@ -1,0 +1,48 @@
+pkgname=e2fsprogs
+pkgver=1.46.5
+pkgrel=1
+pkgdesc="Ext2/3/4 filesystem utilities"
+arch=('x86_64')
+url="http://e2fsprogs.sourceforge.net/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL' 'LGPL' 'MIT')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    mkdir -v build
+    cd       build
+    ../configure --prefix=/usr           \
+             --sysconfdir=/etc       \
+             --enable-elf-shlibs     \
+             --disable-libblkid      \
+             --disable-libuuid       \
+             --disable-uuidd         \
+             --disable-fsck
+    make -j3
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver/build" 
+}
+
+package() {
+
+    cd $srcdir/$pkgname-$pkgver/build
+    make DESTDIR=$pkgdir install
+
+    gunzip -v $pkgdir/usr/share/info/libext2fs.info.gz
+   
+    makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo
+    install -v -m644 doc/com_err.info $pkgdir/usr/share/info
+ 
+}

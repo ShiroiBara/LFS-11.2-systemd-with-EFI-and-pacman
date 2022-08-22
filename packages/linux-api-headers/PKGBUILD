@@ -1,0 +1,39 @@
+pkgname=linux-api-headers
+pkgver=5.16.9
+pkgrel=1
+pkgdesc="Kernel headers sanitized for use in userspace"
+arch=('x86_64')
+url="https://www.kernel.org"
+archive=linux
+license=('GPL2')
+source=($archive-$pkgver.tar.xz)
+md5sums=('SKIP')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+    make mrproper
+    make headers
+    find usr/include -name '.*' -delete
+    rm usr/include/Makefile
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$archive-$pkgver"
+    install -vdm755 $pkgdir/usr
+    cp -rv usr/include $pkgdir/usr
+
+}

@@ -1,0 +1,8 @@
+post_install() {   
+pushd /usr/share/info &> /dev/null
+  rm dir &> /dev/null
+  for f in *
+    do install-info $f dir 2>/dev/null
+  done
+popd &> /dev/null
+}

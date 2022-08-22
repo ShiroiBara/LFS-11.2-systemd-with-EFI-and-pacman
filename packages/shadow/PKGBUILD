@@ -1,0 +1,51 @@
+pkgname=shadow
+pkgver=4.11.1
+pkgrel=1
+pkgdesc="Password and account management tool suite with support for shadow files and PAM"
+arch=('x86_64')
+url="https://github.com/shadow-maint/shadow"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('BSD')
+install=shadow.install
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -i 's/groups$(EXEEXT) //' src/Makefile.in
+    find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
+    find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
+    find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;
+
+    sed -e 's:#ENCRYPT_METHOD DES:ENCRYPT_METHOD SHA512:' \
+    -e 's:/var/spool/mail:/var/mail:'                 \
+    -e '/PATH=/{s@/sbin:@@;s@/bin:@@}'                \
+    -i etc/login.defs
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --sysconfdir=/etc \
+    --disable-static  \
+    --with-group-name-max-length=32
+    make    
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+ 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    install -vdm755 $pkgdir/usr/bin
+    touch $pkgdir/usr/bin/passwd
+    make DESTDIR=$pkgdir exec_prefix=/usr install
+    make DESTDIR=$pkgdir -C man install-man
+    
+}

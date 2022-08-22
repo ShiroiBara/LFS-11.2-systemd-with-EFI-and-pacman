@@ -1,0 +1,45 @@
+pkgname=dbus
+pkgver=1.12.20
+pkgrel=1
+pkgdesc="Freedesktop.org message bus system"
+arch=('x86_64')
+url="https://wiki.freedesktop.org/www/Software/dbus/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL' 'custom')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr                        \
+            --sysconfdir=/etc                    \
+            --localstatedir=/var                 \
+            --disable-static                     \
+            --disable-doxygen-docs               \
+            --disable-xml-docs                   \
+            --docdir=/usr/share/doc/dbus-1.12.20 \
+            --with-console-auth-dir=/run/console \
+            --with-system-pid-file=/run/dbus/pid \
+            --with-system-socket=/run/dbus/system_bus_socket
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd $srcdir/$pkgname-$pkgver
+    make DESTDIR=$pkgdir install
+    ln -sfv /etc/machine-id $pkgdir/var/lib/dbus
+    
+}

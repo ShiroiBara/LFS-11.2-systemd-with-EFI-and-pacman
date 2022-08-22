@@ -1,0 +1,39 @@
+pkgname=libffi
+pkgver=3.4.2
+pkgrel=1
+pkgdesc="Portable foreign function interface library"
+arch=('x86_64')
+url="https://sourceware.org/libffi/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('MIT')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr          \
+    --disable-static       \
+    --with-gcc-arch=native \
+    --disable-exec-static-tramp
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

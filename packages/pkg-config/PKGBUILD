@@ -1,0 +1,38 @@
+pkgname=pkg-config
+pkgver=0.29.2
+pkgrel=1
+pkgdesc="A system for managing library compile/link flags"
+arch=('x86_64')
+url="http://pkgconfig.freedesktop.org/wiki/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr              \
+    --with-internal-glib       \
+    --disable-host-tool        \
+    --docdir=/usr/share/doc/pkg-config-0.29.2
+    make
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

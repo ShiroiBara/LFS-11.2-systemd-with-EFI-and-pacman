@@ -1,0 +1,36 @@
+pkgname=patch
+pkgver=2.7.6
+pkgrel=1
+pkgdesc="A utility to apply patch files to original sources"
+arch=('x86_64')
+url="http://www.gnu.org/software/patch/patch.html"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

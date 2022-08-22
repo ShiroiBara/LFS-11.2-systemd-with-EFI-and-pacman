@@ -1,0 +1,40 @@
+pkgname=expat
+pkgver=2.4.6
+pkgrel=1
+pkgdesc="An XML parser library"
+arch=('x86_64')
+url="http://expat.sourceforge.net/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('custom')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr    \
+    --disable-static \
+    --docdir=/usr/share/doc/expat-2.4.6
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -vdm755 $pkgdir/usr/share/doc/expat-2.4.6
+    install -v -m644 doc/*.{html,css} $pkgdir/usr/share/doc/expat-2.4.6
+
+}

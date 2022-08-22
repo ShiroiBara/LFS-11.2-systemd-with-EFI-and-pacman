@@ -1,0 +1,44 @@
+pkgname=gnu-efi
+pkgver=3.0.14
+pkgrel=1
+pkgdesc="Develop EFI applications using the GNU toolchain and the EFI development environment"
+arch=('x86_64')
+url="https://sourceforge.net/projects/gnu-efi/"
+source=($pkgname-$pkgver.tar.bz2)
+md5sums=('SKIP')
+license=('BSD')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -e 's/-Werror//g' -i Make.defaults
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    CFLAGS="-O2 -flto -ffat-lto-objects"
+    make
+    make -C lib
+    make -C gnuefi
+    make -C inc
+    LDFLAGS=""
+    make -C apps
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make INSTALLROOT=$pkgdir PREFIX=/usr install
+    install -vDm 644 apps/*.efi -t      $pkgdir/usr/share/$pkgname/apps/$CARCH/
+    install -vDm 644 {ChangeLog,README.{gnuefi,git,elilo}} -t   $pkgdir/usr/share/doc/$pkgname/
+
+}

@@ -1,0 +1,51 @@
+pkgname=binutils
+pkgver=2.38
+pkgrel=1
+pkgdesc="A set of programs to assemble and manipulate binary and object files"
+arch=('x86_64')
+url="https://www.gnu.org/software/binutils/"
+source=($pkgname-$pkgver.tar.xz
+$pkgname-$pkgver-lto_fix-1.patch)
+md5sums=('SKIP'
+'SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    patch -Np1 -i ../binutils-2.38-lto_fix-1.patch
+    sed -e '/R_386_TLS_LE /i \   || (TYPE) == R_386_TLS_IE \\' \
+    -i ./bfd/elfxx-x86.h    
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    mkdir -v build
+    cd       build
+    ../configure --prefix=/usr       \
+    --enable-gold       \
+    --enable-ld=default \
+    --enable-plugins    \
+    --enable-shared     \
+    --disable-werror    \
+    --enable-64-bit-bfd \
+    --with-system-zlib
+    make -j3 tooldir=/usr
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver/build"
+    make -j3 -k check || true
+    read -p "Please check test results and press any key to continue... " -n1 -s
+ 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver/build"
+    make DESTDIR=$pkgdir tooldir=/usr install
+    
+}

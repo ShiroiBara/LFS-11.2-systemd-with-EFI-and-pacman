@@ -1,0 +1,50 @@
+pkgname=python
+archive=Python
+pkgver=3.10.2
+pkgrel=1
+pkgdesc="Next generation of the python high-level scripting language"
+arch=('x86_64')
+url="https://www.python.org/"
+source=($archive-$pkgver.tar.xz
+$pkgname-$pkgver-docs-html.tar.bz2)
+md5sums=('SKIP'
+'SKIP')
+license=('MIT')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+    ./configure --prefix=/usr        \
+    --enable-shared      \
+    --with-system-expat  \
+    --with-system-ffi    \
+    --with-ensurepip=yes \
+    --enable-optimizations
+    make -j3
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$archive-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -v -dm755 $pkgdir/usr/share/doc/python-3.10.2/html
+    tar --strip-components=1  \
+    --no-same-owner       \
+    --no-same-permissions \
+    -C $pkgdir/usr/share/doc/python-3.10.2/html \
+    -xvf ../../python-3.10.2-docs-html.tar.bz2
+
+}

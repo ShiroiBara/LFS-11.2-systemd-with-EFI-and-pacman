@@ -1,0 +1,36 @@
+pkgname=markupsafe
+archive=MarkupSafe
+pkgver=2.0.1
+pkgrel=1
+pkgdesc="Implements a XML/HTML/XHTML Markup safe string for Python"
+arch=('x86_64')
+url="https://pypi.python.org/pypi/MarkupSafe"
+source=($archive-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('BSD')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+    python3 setup.py build
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$archive-$pkgver"
+    python3 setup.py install --root=$pkgdir --optimize=1
+
+}

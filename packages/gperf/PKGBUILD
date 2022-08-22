@@ -1,0 +1,36 @@
+pkgname=gperf
+pkgver=3.1
+pkgrel=1
+pkgdesc="Perfect hash function generator"
+arch=('x86_64')
+url="http://www.gnu.org/software/gperf/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr --docdir=/usr/share/doc/gperf-3.1
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

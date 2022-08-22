@@ -1,0 +1,40 @@
+pkgname=procps-ng
+archive=procps
+pkgver=3.3.17
+pkgrel=1
+pkgdesc="Utilities for monitoring your system and its processes"
+arch=('x86_64')
+url="https://gitlab.com/procps-ng/procps"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL' 'LGPL')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+    ./configure --prefix=/usr                            \
+            --docdir=/usr/share/doc/procps-ng-3.3.17 \
+            --disable-static                         \
+            --disable-kill                           \
+            --with-systemd
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver" 
+}
+
+package() {
+
+    cd $srcdir/$archive-$pkgver
+    make DESTDIR=$pkgdir install
+    
+}

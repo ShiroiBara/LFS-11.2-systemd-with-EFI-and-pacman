@@ -1,0 +1,38 @@
+pkgname=libarchive
+pkgver=3.6.0
+pkgrel=1
+pkgdesc="library that can create and read several streaming archive formats"
+arch=('x86_64')
+url="http://libarchive.org/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -i '436a if ((OSSL_PROVIDER_load(NULL, "legacy")) == NULL) \
+    return (ARCHIVE_FAILED);' libarchive/archive_digest.c
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr --disable-static
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

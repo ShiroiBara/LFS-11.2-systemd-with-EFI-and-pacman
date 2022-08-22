@@ -1,0 +1,36 @@
+pkgname=less
+pkgver=590
+pkgrel=1
+pkgdesc="A terminal based program for viewing text files"
+arch=('x86_64')
+url="http://www.greenwoodsoftware.com/less"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr  --sysconfdir=/etc
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

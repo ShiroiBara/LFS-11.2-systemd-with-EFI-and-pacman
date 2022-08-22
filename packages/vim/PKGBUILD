@@ -1,0 +1,47 @@
+pkgname=vim
+pkgver=8.2.4383
+pkgrel=1
+pkgdesc="Vi Improved, a highly configurable, improved version of the vi text editor"
+arch=('x86_64')
+url="http://www.vim.org/"
+source=($pkgname-$pkgver.tar.gz
+vimrc)
+md5sums=('SKIP'
+'SKIP')
+license=('custom:vim')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make -j3
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    ln -sv vim $pkgdir/usr/bin/vi
+    for L in  $pkgdir/usr/share/man/{,*/}man1/vim.1; do
+        ln -sv vim.1 $(dirname $L)/vi.1
+    done
+    install -vdm755 $pkgdir/usr/share/doc/$pkgname-$pkgver
+    ln -sv ../vim/vim82/doc $pkgdir/usr/share/doc/vim-8.2.4383
+    install -vdm755 $pkgdir/etc
+    install -vm644 $srcdir/vimrc $pkgdir/etc/vimrc
+
+}

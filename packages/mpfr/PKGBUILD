@@ -1,0 +1,42 @@
+pkgname=mpfr
+pkgver=4.1.0
+pkgrel=1
+pkgdesc="Multiple-precision floating-point library"
+arch=('x86_64')
+url="http://www.mpfr.org"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('LGPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr        \
+    --disable-static     \
+    --enable-thread-safe \
+    --docdir=/usr/share/doc/mpfr-4.1.0
+    make -j3 
+    make html
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make -j3 -k check  || true
+    read -p "Please check test results and press any key to continue... " -n1 -s
+ 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    make DESTDIR=$pkgdir install-html
+    
+}

@@ -1,0 +1,33 @@
+pkgname=zstd
+pkgver=1.5.2
+pkgrel=1
+pkgdesc="Zstandard - Fast real-time compression algorithm"
+arch=('x86_64')
+url="https://facebook.github.io/zstd/"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=(BSD GPL2)
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make -j3
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir prefix=/usr install
+    
+}

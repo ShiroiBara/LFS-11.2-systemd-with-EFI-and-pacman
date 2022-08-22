@@ -1,0 +1,46 @@
+pkgname=kmod
+pkgver=29
+pkgrel=1
+pkgdesc="Linux kernel module management tools and library"
+arch=('x86_64')
+url="http://git.kernel.org/?p=utils/kernel/kmod/kmod.git;a=summary"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('custom' 'BSD')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr          \
+    --sysconfdir=/etc      \
+    --with-openssl         \
+    --with-xz              \
+    --with-zstd            \
+    --with-zlib
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -vdm755 $pkgdir/usr/sbin
+    for target in depmod insmod modinfo modprobe rmmod; do
+        ln -sfv ../bin/kmod $pkgdir/usr/sbin/$target
+    done
+    ln -sfv kmod $pkgdir/usr/bin/lsmod
+
+}

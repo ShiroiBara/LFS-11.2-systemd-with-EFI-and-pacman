@@ -1,0 +1,36 @@
+pkgname=make
+pkgver=4.3
+pkgrel=1
+pkgdesc="GNU make utility to maintain groups of programs"
+arch=('x86_64')
+url="http://www.gnu.org/software/make"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL3')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

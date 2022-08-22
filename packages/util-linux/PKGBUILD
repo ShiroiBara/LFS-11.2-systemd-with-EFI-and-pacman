@@ -1,0 +1,48 @@
+pkgname=util-linux
+pkgver=2.37.4
+pkgrel=1
+pkgdesc="Miscellaneous system utilities for Linux"
+arch=('x86_64')
+url="https://www.kernel.org/pub/linux/utils/util-linux/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL2')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime   \
+            --bindir=/usr/bin    \
+            --libdir=/usr/lib    \
+            --sbindir=/usr/sbin  \
+            --docdir=/usr/share/doc/util-linux-2.37.4 \
+            --disable-chfn-chsh  \
+            --disable-login      \
+            --disable-nologin    \
+            --disable-su         \
+            --disable-setpriv    \
+            --disable-runuser    \
+            --disable-pylibmount \
+            --disable-static     \
+            --without-python
+    make -j3
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd $srcdir/$pkgname-$pkgver
+    make DESTDIR=$pkgdir install
+    
+}

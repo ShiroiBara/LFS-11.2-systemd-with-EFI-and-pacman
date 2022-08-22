@@ -1,0 +1,35 @@
+pkgname=xz
+pkgver=5.2.5
+pkgrel=1
+pkgdesc="Library and command line tools for XZ and LZMA compressed files"
+arch=('x86_64')
+url="http://tukaani.org/xz/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr    \
+    --disable-static \
+    --docdir=/usr/share/doc/xz-5.2.5
+    make
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    
+}

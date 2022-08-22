@@ -1,0 +1,35 @@
+pkgname=jinja2
+archive=Jinja2
+pkgver=3.0.3
+pkgrel=1
+pkgdesc="Python module that implements a simple pythonic template lanuage"
+arch=('x86_64')
+url="https://palletsprojects.com/p/jinja/"
+source=($archive-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('BSD')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$archive-$pkgver"
+    python3 setup.py install --root=$pkgdir --optimize=1
+
+}

@@ -1,0 +1,37 @@
+pkgname=xml-parser
+archive=XML-Parser
+pkgver=2.46
+pkgrel=1
+pkgdesc="Expat-based XML parser module for perl"
+arch=('x86_64')
+url="http://search.cpan.org/dist/XML-Parser/"
+source=($archive-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL' 'PerlArtistic')
+
+prepare() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$archive-$pkgver"
+    perl Makefile.PL
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$archive-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$archive-$pkgver"
+    make DESTDIR=$pkgdir install
+
+}

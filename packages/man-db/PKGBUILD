@@ -1,0 +1,42 @@
+pkgname=man-db
+pkgver=2.10.1
+pkgrel=1
+pkgdesc="A utility for reading man pages"
+arch=('x86_64')
+url="http://www.nongnu.org/man-db/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL' 'LGPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr                     \
+            --docdir=/usr/share/doc/man-db-2.10.1 \
+            --sysconfdir=/etc                     \
+            --disable-setuid                      \
+            --enable-cache-owner=bin              \
+            --with-browser=/usr/bin/lynx          \
+            --with-vgrind=/usr/bin/vgrind         \
+            --with-grap=/usr/bin/grap
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd $srcdir/$pkgname-$pkgver
+    make DESTDIR=$pkgdir install
+    
+}

@@ -1,0 +1,39 @@
+pkgname=gawk
+pkgver=5.1.1
+pkgrel=1
+pkgdesc="GNU version of awk"
+arch=('x86_64')
+url="https://www.gnu.org/software/gawk/"
+source=($pkgname-$pkgver.tar.xz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    sed -i 's/extras//' Makefile.in
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    install -vdm755                                 $pkgdir/usr/share/doc/gawk-5.1.1
+    cp    -v doc/{awkforai.txt,*.{eps,pdf,jpg}}     $pkgdir/usr/share/doc/gawk-5.1.1
+
+}

@@ -1,0 +1,48 @@
+pkgname=texinfo
+pkgver=6.8
+pkgrel=1
+pkgdesc="GNU documentation system for on-line information and printed output"
+arch=('x86_64')
+url="http://www.gnu.org/software/texinfo/"
+source=($pkgname-$pkgver.tar.xz
+texinfo-install.hook
+texinfo-remove.hook
+dir.install)
+md5sums=('SKIP'
+'SKIP'
+'SKIP'
+'SKIP')
+license=('GPL3')
+install=dir.install
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure --prefix=/usr
+    sed -e 's/__attribute_nonnull__/__nonnull/' \
+    -i gnulib/lib/malloc/dynarray-skeleton.c
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    make DESTDIR=$pkgdir TEXMF=/usr/share/texmf install-tex
+    install -dm755 $pkgdir/usr/share/libalpm/hooks/
+    install -m644 ../texinfo-{install,remove}.hook $pkgdir/usr/share/libalpm/hooks/
+
+}
