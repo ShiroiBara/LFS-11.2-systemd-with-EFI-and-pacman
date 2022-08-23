@@ -1,0 +1,41 @@
+pkgname=dracut
+pkgver=057
+pkgrel=1
+pkgdesc="An event driven initramfs infrastructure"
+arch=('x86_64')
+url="https://dracut.wiki.kernel.org"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=('SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    ./configure \
+    --sysconfdir=/etc \
+    --prefix=/usr \
+    --libdir=/usr/lib \
+    --systemdsystemunitdir=/usr/lib/systemd/system \
+    --bashcompletiondir=/usr/share/bash-completion/completions \
+    --disable-documentation
+    make
+
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR=$pkgdir install
+    
+}
