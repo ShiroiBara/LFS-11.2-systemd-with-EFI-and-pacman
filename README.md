@@ -303,7 +303,7 @@ cd ..
 pacman -U linux-api-headers-5.16.9-1-x86_64.pkg.tar.gz --overwrite=*
 ````
 
-For second and rest packages follow book order. Instructions for building will stay same. First you need to change to package directory and copy package tarball file, include patches if they needed. Next you envoke `makepkg` as example above, move builded pacman packages to `/package` directory and install it to final system.
+For second and rest packages follow book order. Instructions for building will stay same. First you need change to package directory and copy package tarball file. Next you envoke `makepkg` as example above, move builded pacman package to `/source/packages` directory and install it to final system.
 
 Build next three packages:
 
