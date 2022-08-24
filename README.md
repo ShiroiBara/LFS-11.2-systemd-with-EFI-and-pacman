@@ -352,7 +352,7 @@ Continue building basic software until you finish chapter **8.58. Groff-1.22.4**
 
 ## Stage 5
 
-It's time now to reinstall pacman as pacman's package. But before we need build and reinstall as pacman's packages two libraries:
+It's time now to reinstall pacman as pacman's package. But before you need build and reinstall as pacman's packages two libraries:
 
 - libarchive
 - fakeroot
