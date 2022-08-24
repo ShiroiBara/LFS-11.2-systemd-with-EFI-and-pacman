@@ -7,6 +7,27 @@ Based on [the guide writen by James Kimball](http://lists.linuxfromscratch.org/p
 Based on [Pacman on LFS 8.1](https://github.com/benvd/lfs-pacman)" By Ben Van Daele                                                                           
 Licensed under the [Creative Commons Attribution-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-sa/3.0/)
 
+### FAQ ### 
+
+- Q: What is this? Another arch-based distro?
+- A: Nope. This is more LFS than arch-based clone. But it's using pacman packages manager developed by arch linux community.
+- Q: But LFS never used any package manager, it's not LFS philosophy.
+- A: True, but this is not pure LFS. It's using most of LFS instruction to build software and put them in pacman's format packages.
+- Q: Why then using package manager at all if you can compile and install all manualy?
+--A: When you building LFS, you might found what you did mistake, for exmaple installed software in wrong `/prefix` or used 'lib64` instead of `lib`
+     or did another mistake. Fixing this could be problem, because you need find all installed files and remove them. Using packages, could help you
+     tarck installed files and revert changes back if needed.
+- Q: Dependensies, repo and etc for pacman packages?
+- A: Nope. No dependensies. Packages what you will produce will only contating pure LFS compiled programs and you need resolve nesesary dependisies for
+     missing libraries and headers yourself. They will be stored localy on you PC in separate folder not on server.
+- Q: But is it possible to made my own repo for my own packages in case if I need reinstall stuff fast?
+- A: Yes, it's possible but not covered here. You need read aditional info using arch wiki.
+- Q: Why Sytemd  and EFI?
+- A: Systemd is standard for most linux distros now. If you want use old init scripts you must do it yourself. EFI used in 99% modern PC now, if you still
+     have legacy BIOS you need install grub and again do it yourself.
+- Q: Version 11.1? But LFS almost released 11.2 now.
+- A: I'll update this guide later when stable LFS 11.2 will be released.
+
 ## Introduction
 
 This guide is divided in five stages, the first one of which starts just after chrooting to your final system.
