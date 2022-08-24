@@ -292,7 +292,7 @@ cd /source/packages
 ````
 Before you start build packages, using makepkg command, you will need `PKGBUILD` files and some patches. They all present inside subfolders in `/source/packages` directory
 
-Change to package directory. Our first package will be linux-api-headers. Even it was installed manually we need reinstall it with pacman for future easy removal or replacement in case of upgrading system.
+Change to package directory. Your first package will be linux-api-headers. Even it was installed manually you need reinstall it with pacman for future easy removal or replacement in case of upgrading system.
 
 ````
 cd linux-api-headers
