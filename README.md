@@ -251,7 +251,7 @@ CARCH="x86_64"
 CHOST="x86_64-pc-linux-gnu"
 ```
 
-For deafult makepkg using options such striping debug symbols keeping static libraries empty directories and compress man files. Also it removes some info files like .pod. Some of those change not compatible with lfs and should be changed. Edit lines in make.conf file to achive it:
+For deafult makepkg using options such striping debug symbols keeping static libraries empty directories and compress man files. Also it removes some info files like .pod. Some of those change not compatible with lfs and should be changed. Edit lines in `makepkg.conf` file to achive it:
 
 ```
 OPTIONS=(!strip !libtool !staticlibs !zipman purge)
