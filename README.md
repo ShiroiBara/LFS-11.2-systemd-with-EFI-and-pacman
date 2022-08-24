@@ -258,7 +258,7 @@ OPTIONS=(!strip !libtool !staticlibs !zipman purge)
 PURGE_TARGETS=(usr/{,share}/info/dir .packlist)
 ```
 
-If you desire you can change them for you own use. Refer to makepkg.conf [manual.](https://man.archlinux.org/man/makepkg.conf.5.en)
+If you desire you can change them for you own use. Refer to `makepkg.conf` [manual.](https://man.archlinux.org/man/makepkg.conf.5.en)
 
 You can set your name and email address as the `PACKAGER` if you want.
 
