@@ -146,7 +146,7 @@ install -vDm644 misc/zsh-completion  /usr/share/zsh/site-functions/_ninja
 
 #### meson 0.61
 
-**Note:** Since python was build without setuptools module we need put meson in single executable ziped file what we store in /source directory. 
+**Note:** Since python was build without setuptools module you need put meson in single executable ziped file what will be stored in /source directory. 
 This file will be used by python later to build pacman
 
 ```
