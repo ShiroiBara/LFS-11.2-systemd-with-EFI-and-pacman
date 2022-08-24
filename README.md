@@ -68,6 +68,8 @@ I'm not providing here md5 sums for them, if you want to check use other downloa
 Download `packages` folder from this repo, using `git clone` or as `zip` file and unpack it to `$LFS/sources` folder. No additional instruction here, please
 google how to use 'git' if needed. This is guide not covering any aspect of using linux, if you tried pure `LFS` early you probably have some linux knowledge. Nothing personal.
 
+**Note:** EFI boot require separate partition formated to `FAT32` file system. Keep it in mind when reading chapters **2.4. Creating a New Partition** and **2.5. Creating a File System on the Partition**. Assuming what you are using GPT layout on your disk.
+
 Proceed next now, using LFS book until you reach  **iii. General Compilation Instructions** 
 
 ### Stage 2
@@ -332,7 +334,15 @@ For example for US issue this:
 LANG=en_US.UTF-8
 ````
 
-Now you can contnue build system until you finish chapter **8.58. Groff-1.22.4**
+Now you can contnue build system until you finish chapter **8.34. Bash-5.1.16**
+
+**Note:** When you build and install `bash` with pacman you will use `exec /usr/bin/bash --login` command to run compiled bash. This also reset `LANG` variable. You must set it back:
+
+````
+LANG=en_US.UTF-8
+````
+
+Continue building basic software until you finish chapter **8.58. Groff-1.22.4**
 
 ## Stage 5
 
@@ -376,3 +386,37 @@ for `systemd` and use later `systemd-boot` command to install bootloader:
 -Dsbat-distro-summary="Linux From Scratch"  \
 -Dsbat-distro-url="https://linuxfromscratch.org"
 ```
+
+Build and install `systemd` package. Continue from chapter **8.72. D-Bus-1.12.20** to chapter **8.78. Stripping**. Skip chapter **8.79. Cleaning Up**
+User **tester** still needed for package building, so keep him. You only need remove partial compiler:
+
+````
+find /usr -depth -name $(uname -m)-lfs-linux-gnu\* | xargs rm -rf
+````
+
+Build and install packages for creating `ititramfs`:
+
+- cpio
+- dracut
+
+Mount you EFI partition if you have not did it early:
+
+````
+mount /dev/xxx /boot
+````
+ 
+Where `xxx` your EFI partition name. For example sda1 for primary hard disk. Proceed to chapter **9. System Configuration** until you reach chapter     **10.3. Linux-5.16.9**. Compile and install Linux kernel and it's modules using `PKGFILE`
+
+**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.16.9.tar.xz` folder, copy `config` files as hidden `.config` run `make menuconfig` change or set options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
+
+````
+cd /sources
+tar xf linux-5.16.9.tar.xz
+cd linux-5.16.9
+cp /sources/packages/linux/config ./.config
+make menuconfig
+cp ./.config /sources/packages/linux/config
+````
+
+
+
