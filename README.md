@@ -132,7 +132,7 @@ make install
 ```
 
 **Note:** This is temporary python builded with same commands as LFS book chapter **7.11. Python-3.10.2**. All messages about missing libararies and
-headers could be safely ignored because we only need zlib module. Even openssl has already build, it's not require for this version of python, if desired
+headers could be safely ignored because you only need zlib module. Even openssl has already build, it's not require for this version of python, if desired
 you could build openssl after python.
 
 #### ninja 1.10.2
