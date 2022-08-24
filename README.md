@@ -63,7 +63,7 @@ Get additional archives and place them to you `$LFS/osurces` folder too :
 
 I'm not providing here md5 sums for them, if you want to check use other download sources and do it yourself. This shouldn't be big issue. 
 
-**Note:** You may skip download patches for LFS files and additional archives because they all present in [packages](https://github.com/ShiroiBara/LFS-11.1-systemd-with-EFI-and-pacman/tree/main/packages) folder with `PKGBUILD` files.
+**Note:** You may skip download patches for LFS archives because they all present in [packages](https://github.com/ShiroiBara/LFS-11.1-systemd-with-EFI-and-pacman/tree/main/packages) folder with `PKGBUILD` files.
 
 Download `packages` folder from this repo, using `git clone` or as `zip` file and unpack it to `$LFS/sources` folder. No additional instruction here, please
 google how to use `git` if needed. This is guide not covering any aspect of using linux, if you tried pure `LFS` early you probably have some linux knowledge. Nothing personal.
