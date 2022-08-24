@@ -283,13 +283,12 @@ install -vdm755 /usr/share/gdb/auto-load/usr/lib
 mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 ````
 
-#### Create directory for building and store packages and change to it
+#### Change to directory for building packages
 
 ````
-mdkir /packages
-cd /packages
+cd /source/packages
 ````
-Before you start build packages, using makepkg command, you will need `PKGBUILD` files. You can get them from [here.](https://github.com/ShiroiBara/lfs-pacman/tree/master/packages) You can download them in zip format using github option. Unpack folder packages inside `/packages` directory 
+Before you start build packages, using makepkg command, you will need `PKGBUILD` files and some patches. They all present inside subfolders in `/source/packages` directory
 
 Change to package directory. Our first package will be linux-api-headers. Even it was installed manually we need reinstall it with pacman for future easy removal or replacement in case of upgrading system.
 
@@ -302,7 +301,7 @@ cd ..
 pacman -U linux-api-headers-5.16.9-1-x86_64.pkg.tar.gz --overwrite=*
 ````
 
-For second and rest packages follow book order. Instructions for building will stay same. First you need to change to package directory and copy package tarball file, include patches if they needed. Next you envoke `makepkg` as example above, copy builded pacman packages to `/package` directory and install it to final system.
+For second and rest packages follow book order. Instructions for building will stay same. First you need to change to package directory and copy package tarball file, include patches if they needed. Next you envoke `makepkg` as example above, move builded pacman packages to `/package` directory and install it to final system.
 
 Build next three packages:
 
@@ -323,9 +322,9 @@ ln -sfv /usr/share/zoneinfo/Canada/Eastern /etc/localtime
 
 ````
 
-And configure the dynamic loader exactly as it used in **chapter 8.5.2.3**
+The dynamic loader will be configured automaticly according commands present in `glibc` `PKGBUILD` file.
 
-**Note:** Setup `LANG` variable acording your system locale. It will be later used while building GCC. Incorect setup of it will produce building error.
+**Note:** Setup `LANG` variable acording your system locale. It will be later used while building `GCC`. Incorect setup of it will produce building error.
 
 For example for US issue this:
 
@@ -335,7 +334,7 @@ LANG=en_US.UTF-8
 
 Now you can contnue build system until you finish chapter **8.58. Groff-1.22.4**
 
-## Stage 3 - Installing pacman with temporary pacman as final basic software
+## Stage 5
 
 It's time now to reinstall pacman as pacman's package. But before we need build and reinstall as pacman's packages two libraries:
 
@@ -350,7 +349,7 @@ cp /etc/pacman.conf /etc/pacman.conf-back
 cp /etc/makepkg.conf /etc/makepkg.conf-back
 ````
 
-Finally we can build pacman as it's own package and intall it as final software. After finishing, don't forget restore your config files:
+Finally you can build pacman as it's own package and intall it as basic software. After finishing, don't forget restore your config files:
 
 ````
 su tester -c "PATH=$PATH LANG=$LANG makepkg -c"
@@ -364,14 +363,16 @@ mv /etc/pacman.conf-back /etc/pacman.conf
 mv /etc/makepkg.conf-back /etc/makepkg.conf
 ````
 
-## Stage 4 - Installing rest of basic software from chapter 8 following order from the book include additional packages for EFI support.
+## Stage 6
 
 Skip building **chapter 8.59. GRUB-2.06**. Since system will be booted in EFI mode, instead of `grub` bootloader we will use `systemd-boot`. Continue build pakages from **chapter 8.60. Gzip-1.11**, using `PKBUILD` files and install them to your final system until you reach **chapter 8.70. Jinja2-3.0.3**.
-Now we need build additional package `gnu-efi` to add EFI support for using it with systemd. Build and install it using correspondent `PKGBUILD` file.
-When you finishing building and installing `gnu-efi` package you can build `systemd` package. The `PKGBUILD` has some additional lines to satisfy EFI support
+Now you need build additional package `gnu-efi` which adds EFI support for using to systemd. Build and install it using correspondent `PKGBUILD` file.
+When you finish building and installing `gnu-efi` package you can build `systemd` package. The `PKGBUILD` has some additional lines to satisfy EFI support
 for `systemd` and use later `systemd-boot` command to install bootloader:
 
 ```
--Dgnuefi=true
--Dsbat=
+-Dgnu-efi=true          \
+-Dsbat-distro='lfs'     \
+-Dsbat-distro-summary="Linux From Scratch"  \
+-Dsbat-distro-url="https://linuxfromscratch.org"
 ```
