@@ -9,36 +9,32 @@ Licensed under the [Creative Commons Attribution-ShareAlike 3.0 License](https:/
 
 ### FAQ ### 
 
-- Q: What is this? Another arch-based distro?
-- A: Nope. This is more LFS than arch-based clone. But it's using pacman packages manager developed by arch linux community.
-- Q: But LFS never used any package manager, it's not LFS philosophy.
-- A: True, but this is not pure LFS. It's using most of LFS instruction to build software and put them in pacman's format packages.
-- Q: Why then using package manager at all if you can compile and install all manualy?
---A: When you building LFS, you might found what you did mistake, for exmaple installed software in wrong `/prefix` or used 'lib64` instead of `lib`
-     or did another mistake. Fixing this could be problem, because you need find all installed files and remove them. Using packages, could help you
-     tarck installed files and revert changes back if needed.
-- Q: Dependensies, repo and etc for pacman packages?
-- A: Nope. No dependensies. Packages what you will produce will only contating pure LFS compiled programs and you need resolve nesesary dependisies for
-     missing libraries and headers yourself. They will be stored localy on you PC in separate folder not on server.
-- Q: But is it possible to made my own repo for my own packages in case if I need reinstall stuff fast?
-- A: Yes, it's possible but not covered here. You need read aditional info using arch wiki.
-- Q: Why Sytemd  and EFI?
-- A: Systemd is standard for most linux distros now. If you want use old init scripts you must do it yourself. EFI used in 99% modern PC now, if you still
-     have legacy BIOS you need install grub and again do it yourself.
-- Q: Version 11.1? But LFS almost released 11.2 now.
-- A: I'll update this guide later when stable LFS 11.2 will be released.
+- **Q:** What is this? Another arch-based distro?
+- **A:** Nope. This is more LFS than arch-based clone. But it's using pacman packages manager developed by arch linux community.
+- **Q:** But LFS never used any package manager, it's not LFS philosophy.
+- **A:** True, but this is not pure LFS. It's using most of LFS instruction to build software and put them in pacman's format packages.
+- **Q:** Why then using package manager at all if you can compile and install all manualy?
+- **A:** When you building LFS, you might found what you did mistake, for example installed software in wrong `prefix` or used `lib64` instead of `lib` or did another mistake. Fixing this could be problem, because you need find all installed files and remove them. Using packages, could help you track installed files and revert changes back if needed.
+- **Q:** Dependensies, repo and etc for pacman packages?
+- **A:** Nope. No dependensies. Packages what you will produce will only contating pure LFS compiled programs and you need resolve nesesary dependisies for
+missing libraries and headers yourself. They will be stored localy on you PC in separate folder not on server.
+- **Q:** But is it possible to made my own repo for my own packages in case if I need reinstall stuff fast?
+- **A:** Yes, it's possible but not covered here. You need read aditional info using arch wiki.
+- **Q:** Why sytemd  and EFI?
+- **A:** Systemd is standard for most linux distros now. If you want use old init scripts you must do it yourself. EFI used in 99% modern PC now, if you still have legacy BIOS you need install grub and again do it yourself.
+- **Q:** Version 11.1? But LFS almost released 11.2 now.
+- **A:** I'll update this guide later when stable LFS 11.2 will be released.
 
 ## Introduction
 
-This guide is divided in five stages, the first one of which starts just after chrooting to your final system.
+This guide is divided in few stages:
 
-- Stage 1 - Installing pacman to you root with /usr prefix as temporary tool. All libraries, headers and binaries will be later replaced by their
-            recompiled versions during **Chapter 8. Installing Basic System Software.** 
-- Stage 2 - Installing part of basic system software from chapter 8 using pacman and PKGBUILD files following order from the book until
-            you satisfy all prerequsites to build final pacman as package with PKGBUILD file.
-- Stage 3 - Installing pacman with temporary pacman as final basic software.
-- Stage 4 - Installing rest of basic software from chapter 8 following order from the book include aditional packages for EFI support. 
-- Stage 5 - Finishing the book.
+- Stage 1 - Almost same as LFS book. You will only need download aditional archives required for building pacman, EFI support in systemd and initramfs.
+- Stage 2 - Similar to LFS book, when you build cross toolchain and cross compile temporary system when you later chroot on to it. 
+- Stage 3 - Chrooting to your system, building more temporary stuff and installing temporary pacman there. Almost same as LFS book with few small changes.
+- Stage 4 - Installing part of basic system software, same as LFS book, but using PKGBUILD files to produce pacman's packages to track it.
+- Stage 5 - Reinstalling pacman as basic software and putting it in pacman's package too.
+- Stage 6 - Finishing building basic software. Installing support for EFI in systemd. Installing systemd package. Installing packages for building initramfs             Making systemd bootable with systemd-boot and finishing the book.
 
 ### Stage 1 - Installing temporary pacman to your root
 
