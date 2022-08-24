@@ -66,7 +66,7 @@ I'm not providing here md5 sums for them, if you want to check use other downloa
 **Note:** You may skip download patches for LFS files and additional archives because they all present in [packages](https://github.com/ShiroiBara/LFS-11.1-systemd-with-EFI-and-pacman/tree/main/packages) folder with `PKGBUILD` files.
 
 Download `packages` folder from this repo, using `git clone` or as `zip` file and unpack it to `$LFS/sources` folder. No additional instruction here, please
-google how to use 'git' if needed. This is guide not covering any aspect of using linux, if you tried pure `LFS` early you probably have some linux knowledge. Nothing personal.
+google how to use `git` if needed. This is guide not covering any aspect of using linux, if you tried pure `LFS` early you probably have some linux knowledge. Nothing personal.
 
 **Note:** EFI boot require separate partition formated to `FAT32` file system. Keep it in mind when reading chapters **2.4. Creating a New Partition** and **2.5. Creating a File System on the Partition**. Assuming what you are using GPT layout on your disk.
 
