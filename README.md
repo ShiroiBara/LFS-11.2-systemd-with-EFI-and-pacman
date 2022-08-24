@@ -382,9 +382,7 @@ mv /etc/makepkg.conf-back /etc/makepkg.conf
 ## Stage 6
 
 Skip building **chapter 8.59. GRUB-2.06**. Since system will be booted in EFI mode, instead of `grub` bootloader you will use `systemd-boot`. Continue build pakages from **chapter 8.60. Gzip-1.11**, using `PKBUILD` files and install them to your final system until you reach **chapter 8.70. Jinja2-3.0.3**.
-Now you need build additional package `gnu-efi` which adds EFI support for using to systemd. Build and install it using correspondent `PKGBUILD` file.
-When you finish building and installing `gnu-efi` package you can build `systemd` package. The `PKGBUILD` has some additional lines to satisfy EFI support
-for `systemd` and use later `systemd-boot` command to install bootloader:
+Now you need build additional package `gnu-efi` which adds EFI support to systemd. Build and install it using correspondent `PKGBUILD` file. When you finish building and installing `gnu-efi` package you can build `systemd` package. The `PKGBUILD` has some additional lines to satisfy EFI support for `systemd` and use later `systemd-boot` command to install bootloader:
 
 ```
 -Dgnu-efi=true          \
@@ -393,7 +391,7 @@ for `systemd` and use later `systemd-boot` command to install bootloader:
 -Dsbat-distro-url="https://linuxfromscratch.org"
 ```
 
-Build and install `systemd` package. Continue from chapter **8.72. D-Bus-1.12.20** to chapter **8.78. Stripping**. Skip chapter **8.79. Cleaning Up**
+Build and install `systemd` package. Continue from chapter **8.72. D-Bus-1.12.20** to chapter **8.78. Stripping**. Skip chapter **8.79. Cleaning Up**.
 User **tester** still needed for package building, so keep him. You only need remove partial compiler:
 
 ````
