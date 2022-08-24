@@ -270,6 +270,12 @@ Makepkg not allow build packages under root user. LFS book using user **tester**
 su tester -c "PATH=$PATH LANG=$LANG makepkg <options>"
 ```
 
+**Note:** if you start building and get error about impossible to write to build folder, check folder permission. It should be `777`. If needed change it:
+
+````
+chmod -v 777 .
+````
+
 Now you need finish building temporary tools with `text-info` package, refer to **7.12. Texinfo-6.8** of book.
 
 ### Stage 4
