@@ -19,7 +19,7 @@ Licensed under the [Creative Commons Attribution-ShareAlike 3.0 License](https:/
 - **A:** Nope. No dependensies. Packages what you will produce will only contating pure LFS compiled programs and you need resolve nesesary dependisies for
 missing libraries and headers yourself. They will be stored localy on you PC in separate folder not on server.
 - **Q:** But is it possible to made my own repo for my own packages in case if I need reinstall stuff fast?
-- **A:** Yes, it's possible but not covered here. You need read aditional info using arch wiki.
+- **A:** Yes, it's possible but not covered here. You need read additional info using arch wiki.
 - **Q:** Why sytemd  and EFI?
 - **A:** Systemd is standard for most linux distros now. If you want use old init scripts you must do it yourself. EFI used in 99% modern PC now, if you still have legacy BIOS you need install grub and again do it yourself.
 - **Q:** Version 11.1? But LFS almost released 11.2 now.
@@ -29,20 +29,58 @@ missing libraries and headers yourself. They will be stored localy on you PC in 
 
 This guide is divided in few stages:
 
-- Stage 1 - Almost same as LFS book. You will only need download aditional archives required for building pacman, EFI support in systemd and initramfs.
-- Stage 2 - Similar to LFS book, when you build cross toolchain and cross compile temporary system when you later chroot on to it. 
+- Stage 1 - Almost same as LFS book. You will only need download additional archives required for building pacman, EFI support in systemd and initramfs.
+- Stage 2 - Similar to LFS book, when you build cross toolchain and cross compile temporary tools for your system where you later chroot in to it. 
 - Stage 3 - Chrooting to your system, building more temporary stuff and installing temporary pacman there. Almost same as LFS book with few small changes.
 - Stage 4 - Installing part of basic system software, same as LFS book, but using PKGBUILD files to produce pacman's packages to track it.
 - Stage 5 - Reinstalling pacman as basic software and putting it in pacman's package too.
 - Stage 6 - Finishing building basic software. Installing support for EFI in systemd. Installing systemd package. Installing packages for building initramfs             Making systemd bootable with systemd-boot and finishing the book.
 
-### Stage 1 - Installing temporary pacman to your root
+### Stage 1
 
-This stage begins right after finishing subsection of chapter **7.10. Perl-5.34.0** of Linux From Scratch Version 11.1-systemd.
+Follow the book instructions until you reach chapter **3.1. Introduction**. When you finishing downloading LFS packages using:
+
+````
+wget --input-file=wget-list --continue --directory-prefix=$LFS/sources
+````
+
+If desired do md5 checksums:
+
+````
+pushd $LFS/sources
+  md5sum -c md5sums
+popd
+````
+
+Get additional archives and place them to you `$LFS/osurces` folder too :
+
+- libarchive: `wget https://github.com/libarchive/libarchive/releases/download/v3.6.0/libarchive-3.6.0.tar.xz --directory-prefix=$LFS/sources`
+- fakeroot: `wget https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_1.29.orig.tar.gz --directory-prefix=$LFS/sources`
+- pacman: `wget https://sources.archlinux.org/other/pacman/pacman-6.0.1.tar.xz --directory-prefix=$LFS/sources`
+- gnu-efi: `wget https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.14.tar.bz2 --directory-prefix=$LFS/sources`
+- cpio:  `wget https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.bz2 --directory-prefix=$LFS/sources`
+- dracut: `wget -O dracut-057.tar.gz https://github.com/dracutdevs/dracut/archive/refs/tags/057.tar.gz --directory-prefix=$LFS/sources`
+
+I'm not providing here md5 sums for them, if you want to check use other download sources and do it yourself. This shouldn't be big issue. 
+
+**Note:** You may skip download patches for LFS files and additional archives because they all present in [packages](https://github.com/ShiroiBara/LFS-11.1-systemd-with-EFI-and-pacman/tree/main/packages) folder with `PKGBUILD` files.
+
+Download `packages` folder from this repo, using `git clone` or as `zip` file and unpack it to `$LFS/sources` folder. No additional instruction here, please
+google how to use 'git' if needed. This is guide not covering any aspect of using linux, if you tried pure `LFS` early you probably have some linux knowledge. Nothing personal.
+
+Proceed next now, using LFS book until you reach  **iii. General Compilation Instructions** 
+
+### Stage 2
+
+As it was said, this is just same as LFS chapters from **5. Compiling a Cross-Toolchain** to **6.18. GCC-11.2.0 - Pass 2**. Follow LFS book instructions.
+
+### Stage 3
+
+Follow LFS book chapters from **7. Entering Chroot and Building Additional Temporary Tools** to **7.10. Perl-5.34.0**. Now you need break, read some info and follow this guide.
 
 #### pacman and makepkg dependencies
 
-To build latest pacman and use makepkg for creating you own packages you need to install those libraries and tools:
+To build latest pacman and use makepkg for creating you own packages you will need to install those libraries and tools:
 
 - zlib
 - opensll
@@ -51,26 +89,12 @@ To build latest pacman and use makepkg for creating you own packages you need to
 - meson as .pyz file
 - util-linux for getopt
 - libcap
-- shadow for su
+- su from shadow
 - libarchive
 - pkg-config
 - fakeroot
 
-Most of these are not part of the LFS or BLFS books, so download their sources manually:
-
-- libarchive: <https://github.com/libarchive/libarchive/releases/download/v3.6.0/libarchive-3.6.0.tar.xz>
-- fakeroot: <https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_1.29.orig.tar.gz>
-- pacman: <https://sources.archlinux.org/other/pacman/pacman-6.0.1.tar.xz>
-
-Additional packages to support EFI boot:
-
-- gnu-efi https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.14.tar.bz2
-
-Build these packages using the following commands. Just like the LFS book, these commands assume you've extracted the relevant sources and `cd`'d into the resulting directory.
-
-**Note:** At this point, I would recommend having TWO terminals running, one CHROOTed into $LFS and one logged in as root on the host. Some files require editing with a text editor (such as vi/vim or nano) and at this point, there is not one present in the chrooted environment. Download/save the files in the chroot environment and if necessary, edit them from the host.
-
-**Note:** If you working in non graphical environment, but have something like boot-cd with minimal tools, you may build some simple editors like nano or wim and use them for edit PKGBUILD and other text files.
+Build these packages using the following commands. Just like the LFS book, these commands assume you have extracted the relevant sources and `cd`'d into the resulting directory.
 
 #### zlib 1.2.11
 
@@ -246,14 +270,17 @@ su tester -c "PATH=$PATH LANG=$LANG makepkg <options>"
 
 Now you need finish building temporary tools with `text-info` package, refer to **7.12. Texinfo-6.8** of book.
 
-### Stage 2 - Installing part of basic system software
+### Stage 4
 
-#### Clean up temporary system acording book
+#### Clean up temporary system acording book, remove some files and move missplaced directories:
 
 ````
 rm -rf /usr/share/{info,man,doc}/*
 find /usr/{lib,libexec} -name \*.la -delete
 rm -rf /tools
+find /usr -name \*.packlist -delete
+install -vdm755 /usr/share/gdb/auto-load/usr/lib
+mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 ````
 
 #### Create directory for building and store packages and change to it
@@ -337,7 +364,7 @@ mv /etc/pacman.conf-back /etc/pacman.conf
 mv /etc/makepkg.conf-back /etc/makepkg.conf
 ````
 
-## Stage 4 - Installing rest of basic software from chapter 8 following order from the book include aditional packages for EFI support.
+## Stage 4 - Installing rest of basic software from chapter 8 following order from the book include additional packages for EFI support.
 
 Skip building **chapter 8.59. GRUB-2.06**. Since system will be booted in EFI mode, instead of `grub` bootloader we will use `systemd-boot`. Continue build pakages from **chapter 8.60. Gzip-1.11**, using `PKBUILD` files and install them to your final system until you reach **chapter 8.70. Jinja2-3.0.3**.
 Now we need build additional package `gnu-efi` to add EFI support for using it with systemd. Build and install it using correspondent `PKGBUILD` file.
