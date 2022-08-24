@@ -315,7 +315,7 @@ using instruction above.
 
 **Note:** You need add time zone data, or some packages later will not build corectly. 
 
-LFS book using a lot of commands to do that, but instead of it just use PKGBUILD file build and install `tzdata` package.
+LFS book using a lot of commands to do that, but instead of it just use `PKGBUILD` file build and install `tzdata` package.
 
 Set you time zone, for example:
 
