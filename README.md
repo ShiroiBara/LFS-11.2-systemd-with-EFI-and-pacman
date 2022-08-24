@@ -405,9 +405,15 @@ Mount you EFI partition if you have not did it early:
 mount /dev/xxx /boot
 ````
  
-Where `xxx` your EFI partition name. For example sda1 for primary hard disk. Proceed to chapter **9. System Configuration** until you reach chapter     **10.3. Linux-5.16.9**. Compile and install Linux kernel and it's modules using `PKGFILE`
+Where `xxx` your EFI partition name. For example sda1 for primary hard disk. Proceed to chapter **9. System Configuration** until you reach chapter     **10.3. Linux-5.16.9**.
 
-**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.16.9.tar.xz` folder, copy `config` files as hidden `.config` run `make menuconfig` change or set options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
+#### Linux firmware ####
+
+Most of modern PC require additional firmware in order to boot kernel and use computer devices. The great article about could be found in BLFS [book](https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/firmware.html). I would recommend you inspect you hardware using `lsmod` command. When you deside which firmware you need, copy necessary folders and files in your `/usr/lib/firmware` folder. For exmaple if you using laptop with cheap AMD GPU picasso/raven family you need copy content of 'amdgpu' folder inside of `/usr/lib/firmware/amdgpu`. You don't need all files, you just need all `picasso*.bin`, `raven*.bin`. If you want support all devices and make sure to boot you system in different PCs just copy everything to `/usr/lib/firmware`
+
+Compile and install Linux kernel and it's modules using `PKGFILE`
+
+**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.16.9.tar.xz` folder, copy `config` file as hidden `.config` run `make menuconfig` change or set kernel options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
 
 ````
 cd /sources
@@ -418,5 +424,33 @@ make menuconfig
 cp ./.config /sources/packages/linux/config
 ````
 
+Install bootloader, using `systemd-boot` command:
 
+````
+systemd-boot install
+````
 
+Install `cpio` and `dracut` packages. Create initramfs using dracut:
+
+````
+dracut --kver=5.16.9
+mv /boot/initramfs-5.16.9.img /boot/initramfs-5.16.9-lfs-11.1-systemd.img
+````
+
+Change necessary loader entires in `/bool/loader` folder:
+
+````
+cd /boot/loader
+echo 'default lfs` > loader.conf
+cd entires
+cat > lfs.conf << EOF
+title Linux From Scratch
+linux /vmlinuz-5.16.9-lfs-systemd
+initrd /initramfs-5.16.9-lfs-11.1-systemd.img
+options root=/dev/sda3 rw
+EOF
+````
+
+**Note:** replace `root=/dev/sda3` by yours root partiton using `vim`
+
+Congratulations! You are done. If you kernel were set correctly and you have necessary firmware you could reboot now to yours new `LFS with pacman system`. Enjoy funny penguines while booting which represent amount of you PCs CPU cores.
