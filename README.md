@@ -416,7 +416,7 @@ Most of modern PC require additional firmware in order to boot kernel and use co
 
 Compile and install Linux kernel and it's modules using `PKGFILE`
 
-**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.16.9.tar.xz` folder, copy `config` file as hidden `.config` run `make menuconfig` change or set kernel options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
+**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.16.9.tar.xz`, change to `linux-5.16.9` folder, copy `config` file as hidden `.config` run `make menuconfig`, change or set kernel options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
 
 ````
 cd /sources
@@ -427,10 +427,10 @@ make menuconfig
 cp ./.config /sources/packages/linux/config
 ````
 
-Install bootloader, using `systemd-boot` command:
+Install bootloader, using `bootctl` command:
 
 ````
-systemd-boot install
+bootctl install
 ````
 
 Install `cpio` and `dracut` packages. Create initramfs using dracut:
