@@ -118,7 +118,6 @@ rm -fv /usr/lib/libz.a
 make         
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
-mv -v /usr/share/doc/openssl /usr/share/doc/openssl-3.0.1
 ```
 
 #### python 3.10.2
@@ -413,7 +412,7 @@ Where `xxx` your EFI partition name. For example sda1 for primary hard disk. Pro
 
 #### Linux firmware ####
 
-Most of modern PC require additional firmware in order to boot kernel and use computer devices. The great article about could be found in BLFS [book](https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/firmware.html). I would recommend you inspect you hardware using `lsmod` command. When you deside which firmware you need, copy necessary folders and files in your `/usr/lib/firmware` folder. For exmaple if you using laptop with cheap AMD GPU picasso/raven family you need copy content of 'amdgpu' folder inside of `/usr/lib/firmware/amdgpu`. You don't need all files, you just need all `picasso*.bin`, `raven*.bin`. If you want support all devices and make sure to boot you system in different PCs just copy everything to `/usr/lib/firmware`
+Most of modern PC require additional firmware in order to boot kernel and use computer devices. The great article about could be found in BLFS [book](https://www.linuxfromscratch.org/blfs/view/stable-systemd/postlfs/firmware.html). I would recommend you inspect you hardware using `lsmod` command. When you deside which firmware you need, copy necessary folders and files in your `/usr/lib/firmware` folder. For exmaple if you using laptop with cheap AMD GPU picasso/raven family you need copy content of `amdgpu` folder inside of `/usr/lib/firmware/amdgpu`. You don't need all files, you just need all `picasso*.bin`, `raven*.bin`. If you want support all devices and make sure to boot you system in different PCs just copy everything to `/usr/lib/firmware`
 
 Compile and install Linux kernel and it's modules using `PKGFILE`
 
@@ -457,4 +456,4 @@ EOF
 
 **Note:** replace `root=/dev/sda3` by yours root partiton using `vim`
 
-Congratulations! You are done. If you kernel were set correctly and you have necessary firmware you could reboot now to yours new `LFS with pacman system`. Enjoy funny penguines while booting which represent amount of you PCs CPU cores.
+Congratulations! You are done. If you kernel were set correctly and you have necessary firmware you could reboot now to yours new `LFS with pacman system`. Enjoy funny penguines while booting which represent amount of you PC CPU cores.
