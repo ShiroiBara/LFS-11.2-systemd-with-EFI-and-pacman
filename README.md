@@ -247,7 +247,7 @@ This will have installed, amongst others, the `makepkg.conf` and `pacman.conf` c
 
 ```
 CARCH="x86_64"
-CHOST="x86_64-pc-linux-gnu"
+CHOST="x86_64-lfs-linux-gnu"
 ```
 
 For deafult makepkg using options such striping debug symbols keeping static libraries empty directories and compress man files. Also it removes some info files like .pod. Some of those change not compatible with lfs and should be changed. Edit lines in `makepkg.conf` file to achive it:
@@ -337,6 +337,18 @@ For example for US issue this:
 
 ````
 LANG=en_US.UTF-8
+````
+
+**Note:** After you build and install GCC with pacman, you must change `makepkg.config` file:
+
+````
+CHOST="x86_64-pc-linux-gnu"
+````
+
+And remove unneeded partial compiler:
+
+````
+find /usr -depth -name $(uname -m)-lfs-linux-gnu\* | xargs rm -rf
 ````
 
 Now you can contnue build system until you finish chapter **8.34. Bash-5.1.16**
