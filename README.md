@@ -253,7 +253,7 @@ CHOST="x86_64-lfs-linux-gnu"
 For deafult makepkg using options such striping debug symbols keeping static libraries empty directories and compress man files. Also it removes some info files like .pod. Some of those change not compatible with lfs and should be changed. Edit lines in `makepkg.conf` file to achive it:
 
 ```
-OPTIONS=(!strip !libtool !staticlibs !zipman purge)
+OPTIONS=(strip !libtool !staticlibs !zipman purge)
 PURGE_TARGETS=(usr/{,share}/info/dir .packlist)
 ```
 
@@ -339,7 +339,7 @@ For example for US issue this:
 LANG=en_US.UTF-8
 ````
 
-**Note:** After you build and install GCC with pacman, you must change `makepkg.config` file:
+**Note:** After you build and install `GCC` with pacman, you must change `makepkg.conf` file:
 
 ````
 CHOST="x86_64-pc-linux-gnu"
