@@ -1,5 +1,5 @@
 pkgname=meson
-pkgver=0.61.1
+pkgver=0.63.1
 pkgrel=1
 pkgdesc="High productivity build system"
 arch=('x86_64')
@@ -17,7 +17,7 @@ prepare() {
 build() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    python3 setup.py build
+    pip3 wheel -w dist --no-build-isolation --no-deps $PWD
 
 }
 
@@ -30,8 +30,7 @@ check() {
 package() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    python3 setup.py install --root=dest
-    cp -rv dest/* $pkgdir
+    pip3 install --root=$pkgdir --no-index --find-links dist meson
     install -vDm644 data/shell-completions/bash/meson   $pkgdir/usr/share/bash-completion/completions/meson
     install -vDm644 data/shell-completions/zsh/_meson   $pkgdir/usr/share/zsh/site-functions/_meson
 
