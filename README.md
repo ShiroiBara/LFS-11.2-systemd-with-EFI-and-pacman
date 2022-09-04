@@ -1,4 +1,4 @@
-# LFS 11.1 systemd with EFI and pacman
+# LFS 11.2 systemd with EFI and pacman
 
 ### Installing LFS systemd edition with EFI support and maintain it with pacman package manager ###
 
@@ -22,8 +22,8 @@ missing libraries and headers yourself. They will be stored localy on you PC in 
 - **A:** Yes, it's possible but not covered here. You need read additional info using arch wiki.
 - **Q:** Why sytemd  and EFI?
 - **A:** Systemd is standard for most linux distros now. If you want use old init scripts you must do it yourself. EFI used in 99% modern PC now, if you still have legacy BIOS you need install grub and again do it yourself.
-- **Q:** Version 11.1? But LFS almost released 11.2 now.
-- **A:** I'll update this guide later when stable LFS 11.2 will be released.
+- **Q:** Version XX.X ? But LFS almost released XX.X+1 now.
+- **A:** I'll update this guide later when next stable LFS XX.X+1 will be released.
 
 ## Introduction
 
@@ -54,10 +54,10 @@ popd
 
 Get additional archives and place them to you `$LFS/osurces` folder too :
 
-- libarchive: `wget https://github.com/libarchive/libarchive/releases/download/v3.6.0/libarchive-3.6.0.tar.xz --directory-prefix=$LFS/sources`
+- libarchive: `wget https://github.com/libarchive/libarchive/releases/download/v3.6.1/libarchive-3.6.1.tar.xz --directory-prefix=$LFS/sources`
 - fakeroot: `wget https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_1.29.orig.tar.gz --directory-prefix=$LFS/sources`
 - pacman: `wget https://sources.archlinux.org/other/pacman/pacman-6.0.1.tar.xz --directory-prefix=$LFS/sources`
-- gnu-efi: `wget https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.14.tar.bz2 --directory-prefix=$LFS/sources`
+- gnu-efi: `wget https://download.sourceforge.net/gnu-efi/gnu-efi-3.0.15.tar.bz2 --directory-prefix=$LFS/sources`
 - cpio:  `wget https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.bz2 --directory-prefix=$LFS/sources`
 - dracut: `wget -O dracut-057.tar.gz https://github.com/dracutdevs/dracut/archive/refs/tags/057.tar.gz --directory-prefix=$LFS/sources`
 
@@ -312,8 +312,8 @@ For second and rest packages follow book order. Instructions for building will s
 Build next three packages:
 
 - Man-pages-5.13
-- Iana-Etc-20220207
-- Glibc-2.35 
+- Iana-Etc-20220812
+- Glibc-2.36 
 
 using instruction above.
 
@@ -358,7 +358,17 @@ Now you can contnue build system until you finish chapter **8.34. Bash-5.1.16**
 LANG=en_US.UTF-8
 ````
 
-Continue building basic software until you finish chapter **8.58. Groff-1.22.4**
+**Note:**" When you start build `python` as pacman package, make sure what you have mounted `/dev/shm` as it done in BLFS book, otherwise you can't
+build `js-91` package in BLFS book. I don't know is it bug related or host system (I'm using arch linux as host), but I strongly recommending you do this
+command to mount `/dev/shm` before you start building python:
+
+````
+mount -t tmpfs devshm /dev/shm
+````
+
+Don't worry this mount point only needs to build python and could be removed later when it will be installed.
+
+Continue now building basic software until you finish chapter **8.58. Groff-1.22.4**
 
 ## Stage 5
 
@@ -431,8 +441,8 @@ Compile and install Linux kernel and it's modules using `PKGFILE`
 
 ````
 cd /sources
-tar xf linux-5.16.9.tar.xz
-cd linux-5.16.9
+tar xf linux-5.19.2.tar.xz
+cd linux-5.19.2
 cp /sources/packages/linux/config ./.config
 make menuconfig
 cp ./.config /sources/packages/linux/config
@@ -447,8 +457,8 @@ bootctl install
 Install `cpio` and `dracut` packages. Create initramfs using dracut:
 
 ````
-dracut --kver=5.16.9
-mv /boot/initramfs-5.16.9.img /boot/initramfs-5.16.9-lfs-11.1-systemd.img
+dracut --kver=5.19.2
+mv /boot/initramfs-5.19.2.img /boot/initramfs-5.19.2-lfs-11.2-systemd.img
 ````
 
 Change necessary loader entires in `/bool/loader` folder:
@@ -459,8 +469,8 @@ echo 'default lfs` > loader.conf
 cd entires
 cat > lfs.conf << EOF
 title Linux From Scratch
-linux /vmlinuz-5.16.9-lfs-systemd
-initrd /initramfs-5.16.9-lfs-11.1-systemd.img
+linux /vmlinuz-5.19.2-lfs-systemd
+initrd /initramfs-5.19.2-lfs-11.1-systemd.img
 options root=/dev/sda3 rw
 EOF
 ````
