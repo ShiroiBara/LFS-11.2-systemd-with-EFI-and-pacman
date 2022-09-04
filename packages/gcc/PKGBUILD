@@ -1,5 +1,5 @@
 pkgname=gcc
-pkgver=11.2.0
+pkgver=12.2.0
 pkgrel=1
 pkgdesc="The GNU Compiler Collection"
 arch=('x86_64')
@@ -10,9 +10,6 @@ md5sums=('SKIP')
 prepare() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    sed -e '/static.*SIGSTKSZ/d' \
-    -e 's/return kAltStackSize/return SIGSTKSZ * 4/' \
-    -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
     case $(uname -m) in
     x86_64)
     sed -e '/m64=/s/lib64/lib/' \
