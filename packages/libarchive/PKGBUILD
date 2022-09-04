@@ -1,5 +1,5 @@
 pkgname=libarchive
-pkgver=3.6.0
+pkgver=3.6.1
 pkgrel=1
 pkgdesc="library that can create and read several streaming archive formats"
 arch=('x86_64')
@@ -11,8 +11,7 @@ license=('GPL')
 prepare() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    sed -i '436a if ((OSSL_PROVIDER_load(NULL, "legacy")) == NULL) \
-    return (ARCHIVE_FAILED);' libarchive/archive_digest.c
+    sed '/linux\/fs\.h/d' -i libarchive/archive_read_disk_posix.c
 
 }
 
