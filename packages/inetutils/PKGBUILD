@@ -1,5 +1,5 @@
 pkgname=inetutils
-pkgver=2.2
+pkgver=2.3
 pkgrel=1
 pkgdesc="A collection of common network programs"
 arch=('x86_64')
