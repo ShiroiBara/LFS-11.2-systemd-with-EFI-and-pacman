@@ -1,22 +1,19 @@
 pkgname=coreutils
-pkgver=9.0
+pkgver=9.1
 pkgrel=1
 pkgdesc="The basic file, shell and text manipulation utilities of the GNU operating system"
 arch=('x86_64')
 url="https://www.gnu.org/software/coreutils/"
 source=($pkgname-$pkgver.tar.xz
-$pkgname-$pkgver-chmod_fix-1.patch
 $pkgname-$pkgver-i18n-1.patch)
 md5sums=('SKIP'
-'SKIP'
 'SKIP')
 license=('GPL3')
 
 prepare() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    patch -Np1 -i ../coreutils-9.0-i18n-1.patch
-    patch -Np1 -i ../coreutils-9.0-chmod_fix-1.patch
+    patch -Np1 -i ../coreutils-9.1-i18n-1.patch
 
 }
 
