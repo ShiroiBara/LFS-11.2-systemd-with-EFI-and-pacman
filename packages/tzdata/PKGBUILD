@@ -1,5 +1,5 @@
 pkgname=tzdata
-pkgver=2021e
+pkgver=2022c
 pkgrel=1
 pkgdesc="Sources for time zone and daylight saving time data"
 arch=('x86_64')
