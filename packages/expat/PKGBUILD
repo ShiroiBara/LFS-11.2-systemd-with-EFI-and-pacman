@@ -1,5 +1,5 @@
 pkgname=expat
-pkgver=2.4.6
+pkgver=2.4.8
 pkgrel=1
 pkgdesc="An XML parser library"
 arch=('x86_64')
@@ -19,7 +19,7 @@ build() {
     cd "$srcdir/$pkgname-$pkgver"
     ./configure --prefix=/usr    \
     --disable-static \
-    --docdir=/usr/share/doc/expat-2.4.6
+    --docdir=/usr/share/doc/expat-2.4.8
     make
 
 }
@@ -34,7 +34,7 @@ package() {
 
     cd "$srcdir/$pkgname-$pkgver"
     make DESTDIR=$pkgdir install
-    install -vdm755 $pkgdir/usr/share/doc/expat-2.4.6
-    install -v -m644 doc/*.{html,css} $pkgdir/usr/share/doc/expat-2.4.6
+    install -vdm755 $pkgdir/usr/share/doc/expat-2.4.8
+    install -v -m644 doc/*.{html,css} $pkgdir/usr/share/doc/expat-2.4.8
 
 }
