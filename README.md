@@ -98,7 +98,7 @@ To build latest pacman and use makepkg for creating you own packages you will ne
 
 Build these packages using the following commands. Just like the LFS book, these commands assume you have extracted the relevant sources and `cd`'d into the resulting directory.
 
-#### zlib 1.2.11
+#### zlib 1.2.12
 
 ```
 ./configure --prefix=/usr
@@ -107,7 +107,7 @@ make install
 rm -fv /usr/lib/libz.a
 ```
 
-#### openssl 3.0.1
+#### openssl 3.0.5
 
 ```
 ./config --prefix=/usr         \
@@ -120,7 +120,7 @@ sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 ```
 
-#### python 3.10.2
+#### python 3.10.6
 
 ```
 ./configure --prefix=/usr   \
@@ -134,7 +134,7 @@ make install
 headers could be safely ignored because you only need zlib module. Even openssl has already build, it's not require for this version of python, if desired
 you could build openssl after python.
 
-#### ninja 1.10.2
+#### ninja 1.11.0
 
 ```
 python3 configure.py --bootstrap
@@ -143,7 +143,7 @@ install -vDm644 misc/bash-completion /usr/share/bash-completion/completions/ninj
 install -vDm644 misc/zsh-completion  /usr/share/zsh/site-functions/_ninja
 ```
 
-#### meson 0.61
+#### meson 0.63.1
 
 **Note:** Since python was build without setuptools module you need put meson in single executable ziped file what will be stored in /source directory. 
 This file will be used by python later to build pacman
@@ -153,13 +153,13 @@ This file will be used by python later to build pacman
 cp meson.pyz ..
 ```
 
-#### util-linux 2.37.4
+#### util-linux 2.38.1
 
 ```
 mkdir -pv /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime    \
             --libdir=/usr/lib    \
-            --docdir=/usr/share/doc/util-linux-2.37.4 \
+            --docdir=/usr/share/doc/util-linux-2.38.1 \
             --disable-chfn-chsh  \
             --disable-login      \
             --disable-nologin    \
@@ -174,7 +174,7 @@ make
 make install
 ```
 
-#### libcap 2.63
+#### libcap 2.65
 
 ```
 sed -i '/install -m.*STA/d' libcap/Makefile
@@ -182,7 +182,7 @@ make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
 ```
 
-#### shadow 4.11.1
+#### shadow 4.12.2
 
 ```
 sed -i 's/groups$(EXEEXT) //' src/Makefile.in
@@ -195,11 +195,10 @@ make
 cp ./src/su /usr/bin/
 ```
 
-#### libarchive 3.6.0
+#### libarchive 3.6.1
 
 ```
-sed -i '436a if ((OSSL_PROVIDER_load(NULL, "legacy")) == NULL) \
-      return (ARCHIVE_FAILED);' libarchive/archive_digest.c
+sed '/linux\/fs\.h/d' -i libarchive/archive_read_disk_posix.c
 ./configure --prefix=/usr --disable-static
 make
 make install
