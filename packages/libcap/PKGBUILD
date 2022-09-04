@@ -1,5 +1,5 @@
 pkgname=libcap
-pkgver=2.63
+pkgver=2.65
 pkgrel=1
 pkgdesc="POSIX 1003.1e capabilities"
 arch=('x86_64')
