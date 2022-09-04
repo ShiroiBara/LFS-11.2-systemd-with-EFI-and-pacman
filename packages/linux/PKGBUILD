@@ -1,0 +1,42 @@
+pkgname=linux
+pkgver=5.19.2
+pkgrel=1
+pkgdesc="Linux kernel and modules"
+arch=('x86_64')
+url="https://kernel.org"
+source=($pkgname-$pkgver.tar.xz
+config)
+md5sums=('SKIP'
+'SKIP')
+license=('GPL')
+
+prepare() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    cp $srcdir/config ./.config
+
+}
+
+build() {
+
+    cd "$srcdir/$pkgname-$pkgver"
+    make -j6
+    make modules
+}
+
+check() {
+
+    cd "$srcdir/$pkgname-$pkgver" 
+}
+
+package() {
+
+    cd $srcdir/$pkgname-$pkgver
+    make INSTALL_MOD_PATH="$pkgdir/usr" modules_install
+    rm -v $pkgdir/usr/lib/modules/${pkgver}/{build,source}
+    install -vdm755 $pkgdir/boot
+    cp -iv arch/x86/boot/bzImage $pkgdir/boot/vmlinuz-5.19.2-lfs-11.2-systemd 
+    install -vdm750 $pkgdir/usr/share/doc/linux-5.19.2
+    cp -r Documentation/* $pkgdir/usr/share/doc/linux-5.19.2
+
+}
