@@ -1,5 +1,5 @@
 pkgname=linux-api-headers
-pkgver=5.16.9
+pkgver=5.19.2
 pkgrel=1
 pkgdesc="Kernel headers sanitized for use in userspace"
 arch=('x86_64')
