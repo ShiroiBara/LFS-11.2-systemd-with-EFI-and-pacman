@@ -1,6 +1,5 @@
 pkgname=procps-ng
-archive=procps
-pkgver=3.3.17
+pkgver=4.0.0
 pkgrel=1
 pkgdesc="Utilities for monitoring your system and its processes"
 arch=('x86_64')
@@ -11,15 +10,15 @@ license=('GPL' 'LGPL')
 
 prepare() {
 
-    cd "$srcdir/$archive-$pkgver"
+    cd "$srcdir/$pkgname-$pkgver"
 
 }
 
 build() {
 
-    cd "$srcdir/$archive-$pkgver"
+    cd "$srcdir/$pkgname-$pkgver"
     ./configure --prefix=/usr                            \
-            --docdir=/usr/share/doc/procps-ng-3.3.17 \
+            --docdir=/usr/share/doc/procps-ng-4.0.0  \
             --disable-static                         \
             --disable-kill                           \
             --with-systemd
@@ -29,12 +28,12 @@ build() {
 
 check() {
 
-    cd "$srcdir/$archive-$pkgver" 
+    cd "$srcdir/$pkgname-$pkgver" 
 }
 
 package() {
 
-    cd $srcdir/$archive-$pkgver
+    cd $srcdir/$pkgname-$pkgver
     make DESTDIR=$pkgdir install
     
 }
