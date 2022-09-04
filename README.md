@@ -425,7 +425,7 @@ Mount you EFI partition if you have not did it early:
 mount /dev/xxx /boot
 ````
  
-Where `xxx` your EFI partition name. For example sda1 for primary hard disk. Proceed to chapter **9. System Configuration** until you reach chapter     **10.3. Linux-5.16.9**.
+Where `xxx` your EFI partition name. For example sda1 for primary hard disk. Proceed to chapter **9. System Configuration** until you reach chapter     **10.3. Linux-5.19.2**.
 
 #### Linux firmware ####
 
@@ -433,7 +433,7 @@ Most of modern PC require additional firmware in order to boot kernel and use co
 
 Compile and install Linux kernel and it's modules using `PKGFILE`
 
-**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.16.9.tar.xz`, change to `linux-5.16.9` folder, copy `config` file as hidden `.config` run `make menuconfig`, change or set kernel options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
+**Note:** `config` file for linux kernel contain minimal default parametrs for fast compilation and EFI support. If you desire change it you need unpack `linux-5.19.2.tar.xz`, change to `linux-5.19.2` folder, copy `config` file as hidden `.config` run `make menuconfig`, change or set kernel options, quit, save new `.config` file and replace `config` file in `\sources\packages\linux` folder:
 
 ````
 cd /sources
