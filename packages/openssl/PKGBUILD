@@ -1,5 +1,5 @@
 pkgname=openssl
-pkgver=3.0.1
+pkgver=3.0.5
 pkgrel=1
 pkgdesc="The Open Source toolkit for Secure Sockets Layer and Transport Layer Security"
 arch=('x86_64')
@@ -37,7 +37,7 @@ package() {
     cd "$srcdir/$pkgname-$pkgver"
     sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
     make DESTDIR=$pkgdir MANSUFFIX=ssl install
-    mv -v $pkgdir/usr/share/doc/openssl $pkgdir/usr/share/doc/openssl-3.0.1
-    cp -vfr doc/* $pkgdir/usr/share/doc/openssl-3.0.1
+    mv -v $pkgdir/usr/share/doc/openssl $pkgdir/usr/share/doc/openssl-3.0.5
+    cp -vfr doc/* $pkgdir/usr/share/doc/openssl-3.0.5
 
 }
