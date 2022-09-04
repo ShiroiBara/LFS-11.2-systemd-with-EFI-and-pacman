@@ -1,6 +1,6 @@
 pkgname=python
 archive=Python
-pkgver=3.10.2
+pkgver=3.10.6
 pkgrel=1
 pkgdesc="Next generation of the python high-level scripting language"
 arch=('x86_64')
@@ -10,6 +10,7 @@ $pkgname-$pkgver-docs-html.tar.bz2)
 md5sums=('SKIP'
 'SKIP')
 license=('MIT')
+install=python.install
 
 prepare() {
 
@@ -24,9 +25,8 @@ build() {
     --enable-shared      \
     --with-system-expat  \
     --with-system-ffi    \
-    --with-ensurepip=yes \
     --enable-optimizations
-    make -j3
+    make
 
 }
 
@@ -40,11 +40,11 @@ package() {
 
     cd "$srcdir/$archive-$pkgver"
     make DESTDIR=$pkgdir install
-    install -v -dm755 $pkgdir/usr/share/doc/python-3.10.2/html
+    install -v -dm755 $pkgdir/usr/share/doc/python-3.10.6/html
     tar --strip-components=1  \
     --no-same-owner       \
     --no-same-permissions \
-    -C $pkgdir/usr/share/doc/python-3.10.2/html \
-    -xvf ../../python-3.10.2-docs-html.tar.bz2
+    -C $pkgdir/usr/share/doc/python-3.10.6/html \
+    -xvf ../../python-3.10.6-docs-html.tar.bz2
 
 }

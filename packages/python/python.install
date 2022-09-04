@@ -1,0 +1,10 @@
+pre_install() {
+cat > /etc/pip.conf << EOF
+[global]
+root-user-action = ignore
+EOF
+}
+
+post_remove() {
+rm /etc/pip.conf
+}
