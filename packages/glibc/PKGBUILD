@@ -1,11 +1,11 @@
 pkgname=glibc
-pkgver=2.35
+pkgver=2.36
 pkgrel=1
 pkgdesc="GNU C Library"
 arch=('x86_64')
 url="http://www.gnu.org/software/libc"
 source=($pkgname-$pkgver.tar.xz
-glibc-2.35-fhs-1.patch
+glibc-2.36-fhs-1.patch
 ld.so.conf
 nsswitch.conf)
 md5sums=('SKIP'
@@ -18,7 +18,7 @@ options=(staticlibs)
 prepare() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    patch -Np1 -i ../glibc-2.35-fhs-1.patch
+    patch -Np1 -i ../glibc-2.36-fhs-1.patch
 
 }
 
@@ -60,6 +60,6 @@ package() {
     install -v -dm755 $pkgdir/usr/lib/locale
     install -vm644 $srcdir/nsswitch.conf    $pkgdir/etc/nsswitch.conf
     install -vm644 $srcdir/ld.so.conf       $pkgdir/etc/ld.so.conf
-    install -vdm644 /etc/ld.so.conf.d
+    install -vdm644 $pkgdir/etc/ld.so.conf.d
 
 }
