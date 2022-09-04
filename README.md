@@ -74,11 +74,11 @@ Proceed next now, using LFS book until you reach  **iii. General Compilation Ins
 
 ### Stage 2
 
-As it was said, this is just same as LFS chapters from **5. Compiling a Cross-Toolchain** to **6.18. GCC-11.2.0 - Pass 2**. Follow LFS book instructions.
+As it was said, this is just same as LFS chapters from **5. Compiling a Cross-Toolchain** to **6.18. GCC-12.2.0 - Pass 2**. Follow LFS book instructions.
 
 ### Stage 3
 
-Follow LFS book chapters from **7. Entering Chroot and Building Additional Temporary Tools** to **7.10. Perl-5.34.0**. Now you need break, read some info and follow this guide.
+Follow LFS book chapters from **7. Entering Chroot and Building Additional Temporary Tools** to **7.10. Perl-5.36.0**. Now you need break, read some info and follow this guide.
 
 #### pacman and makepkg dependencies
 
@@ -401,7 +401,7 @@ mv /etc/makepkg.conf-back /etc/makepkg.conf
 
 ## Stage 6
 
-Skip building **chapter 8.59. GRUB-2.06**. Since system will be booted in EFI mode, instead of `grub` bootloader you will use `systemd-boot`. Continue build pakages from **chapter 8.60. Gzip-1.11**, using `PKBUILD` files and install them to your final system until you reach **chapter 8.70. Jinja2-3.0.3**.
+Skip building **chapter 8.59. GRUB-2.06**. Since system will be booted in EFI mode, instead of `grub` bootloader you will use `systemd-boot`. Continue build pakages from **chapter 8.60. Gzip-1.12**, using `PKBUILD` files and install them to your final system until you reach **chapter 8.70. Jinja2-3.1.2**.
 Now you need build additional package `gnu-efi` which adds EFI support to systemd. Build and install it using correspondent `PKGBUILD` file. When you finish building and installing `gnu-efi` package you can build `systemd` package. The `PKGBUILD` has some additional lines to satisfy EFI support for `systemd` and use later `systemd-boot` command to install bootloader:
 
 ```
@@ -411,7 +411,7 @@ Now you need build additional package `gnu-efi` which adds EFI support to system
 -Dsbat-distro-url="https://linuxfromscratch.org"
 ```
 
-Build and install `systemd` package. Continue from chapter **8.72. D-Bus-1.12.20** to chapter **8.78. Stripping**. Skip chapter **8.79. Cleaning Up**.
+Build and install `systemd` package. Continue from chapter **8.72. D-Bus-1.14.0** to chapter **8.78. Stripping**. Skip chapter **8.79. Cleaning Up**.
 User **tester** still needed for package building, so keep him.
 
 Build and install packages for creating `ititramfs`:
@@ -466,7 +466,7 @@ cd entires
 cat > lfs.conf << EOF
 title Linux From Scratch
 linux /vmlinuz-5.19.2-lfs-systemd
-initrd /initramfs-5.19.2-lfs-11.1-systemd.img
+initrd /initramfs-5.19.2-lfs-11.2-systemd.img
 options root=/dev/sda3 rw
 EOF
 ````
