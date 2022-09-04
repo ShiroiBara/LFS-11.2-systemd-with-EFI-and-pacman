@@ -1,5 +1,5 @@
 pkgname=ninja
-pkgver=1.10.2
+pkgver=1.11.0
 pkgrel=1
 pkgdesc="Small build system with a focus on speed"
 arch=('x86_64')
