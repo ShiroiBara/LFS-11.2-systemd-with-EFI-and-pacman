@@ -1,5 +1,5 @@
 pkgname=kmod
-pkgver=29
+pkgver=30
 pkgrel=1
 pkgdesc="Linux kernel module management tools and library"
 arch=('x86_64')
