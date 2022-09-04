@@ -1,6 +1,6 @@
 pkgname=libelf-elfutils
 archive=elfutils
-pkgver=0.186
+pkgver=0.187
 pkgrel=1
 pkgdesc="A library for handling ELF files"
 arch=('x86_64')
