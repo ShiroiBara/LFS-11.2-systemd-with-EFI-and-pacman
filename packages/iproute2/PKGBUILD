@@ -1,5 +1,5 @@
 pkgname=iproute2
-pkgver=5.16.0
+pkgver=5.19.0
 pkgrel=1
 pkgdesc="IP Routing Utilities"
 arch=('x86_64')
@@ -19,7 +19,7 @@ prepare() {
 build() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    make
+    make NETNS_RUN_DIR=/run/netns
 
 }
 
@@ -33,7 +33,7 @@ package() {
 
     cd "$srcdir/$pkgname-$pkgver"
     make DESTDIR=$pkgdir SBINDIR=/usr/sbin install
-    install -vdm750             $pkgdir/usr/share/doc/iproute2-5.16.0
-    cp -v COPYING README*       $pkgdir/usr/share/doc/iproute2-5.16.0
+    install -vdm755             $pkgdir/usr/share/doc/iproute2-5.19.0
+    cp -v COPYING README*       $pkgdir/usr/share/doc/iproute2-5.19.0
 
 }
