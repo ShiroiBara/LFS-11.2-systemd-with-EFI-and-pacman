@@ -11,13 +11,14 @@ license=(BSD GPL2)
 prepare() {
 
     cd "$srcdir/$pkgname-$pkgver"
+    patch -Np1 -i ../../zstd-1.5.2-upstream_fixes-1.patch
 
 }
 
 build() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    make -j3
+    make preifx=/usr
 }
 
 check() {
