@@ -1,5 +1,5 @@
 pkgname=util-linux
-pkgver=2.37.4
+pkgver=2.38.1
 pkgrel=1
 pkgdesc="Miscellaneous system utilities for Linux"
 arch=('x86_64')
@@ -21,7 +21,7 @@ build() {
             --bindir=/usr/bin    \
             --libdir=/usr/lib    \
             --sbindir=/usr/sbin  \
-            --docdir=/usr/share/doc/util-linux-2.37.4 \
+            --docdir=/usr/share/doc/util-linux-2.38.1 \
             --disable-chfn-chsh  \
             --disable-login      \
             --disable-nologin    \
