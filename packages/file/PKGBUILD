@@ -1,5 +1,5 @@
 pkgname=file
-pkgver=5.41
+pkgver=5.42
 pkgrel=1
 pkgdesc="File type identification utility"
 arch=('x86_64')
