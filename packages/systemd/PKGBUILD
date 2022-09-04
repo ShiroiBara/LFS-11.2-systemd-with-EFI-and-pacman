@@ -1,12 +1,14 @@
 pkgname=systemd
-pkgver=250
+pkgver=251
 pkgrel=1
 pkgdesc="System and service manager"
 arch=('x86_64')
 url="https://www.github.com/systemd/systemd"
 source=($pkgname-$pkgver.tar.gz
-systemd-man-pages-250.tar.xz)
+systemd-man-pages-251.tar.xz
+systemd-251-glibc_2.36_fix-1.patch)
 md5sums=('SKIP'
+'SKIP'
 'SKIP')
 license=('GPL2' 'LGPL2.1')
 install=systemd.install
@@ -14,7 +16,7 @@ install=systemd.install
 prepare() {
 
     cd "$srcdir/$pkgname-$pkgver"
-    patch -Np1 -i ../../systemd-250-upstream_fixes-1.patch
+    patch -Np1 -i ../../systemd-251-glibc_2.36_fix-1.patch
     sed -i -e 's/GROUP="render"/GROUP="video"/' \
            -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 
@@ -27,29 +29,26 @@ build() {
     mkdir -p build
     cd       build
 
-    meson --prefix=/usr     \
-    --sysconfdir=/etc       \
-    --localstatedir=/var    \
-    --buildtype=release     \
-    -Dblkid=true            \
-    -Ddefault-dnssec=no     \
-    -Dfirstboot=false       \
-    -Dinstall-tests=false   \
-    -Dldconfig=false        \
-    -Dsysusers=false        \
-    -Db_lto=false           \
-    -Drpmmacrosdir=no       \
-    -Dhomed=false           \
-    -Duserdb=false          \
-    -Dman=false             \
-    -Dmode=release          \
-    -Ddocdir=/usr/share/doc/systemd-250 \
-    -Dgnu-efi=true          \
-    -Dsbat-distro='lfs'     \
-    -Dsbat-distro-summary="Linux From Scratch"  \
-    -Dsbat-distro-url="https://linuxfromscratch.org" \
+    meson   --prefix=/usr             \
+            --buildtype=release       \
+            -Ddefault-dnssec=no           \
+            -Dfirstboot=false             \
+            -Dinstall-tests=false         \
+            -Dldconfig=false              \
+            -Dsysusers=false              \
+            -Drpmmacrosdir=no             \
+            -Dhomed=false                 \
+            -Duserdb=false                \
+            -Dman=false                   \
+            -Dmode=release                \
+            -Dpamconfdir=no               \
+            -Ddocdir=/usr/share/doc/systemd-251 \
+            -Dgnu-efi=true          \
+            -Dsbat-distro='lfs'     \
+            -Dsbat-distro-summary="Linux From Scratch"  \
+            -Dsbat-distro-url="https://linuxfromscratch.org" \
     ..
-
+    
     ninja -j6
 
 }
@@ -64,7 +63,6 @@ package() {
     cd $srcdir/$pkgname-$pkgver/build
     DESTDIR=$pkgdir ninja install
     install -vdm755 $pkgdir/usr/share/man
-    tar -xf ../../../systemd-man-pages-250.tar.xz -C $pkgdir/usr/share/man
-    rm -rf $pkgdir/usr/lib/pam.d
+    tar -xf ../../../systemd-man-pages-251.tar.xz -C $pkgdir/usr/share/man
 
 }
