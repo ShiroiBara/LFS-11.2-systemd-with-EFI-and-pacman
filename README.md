@@ -358,9 +358,8 @@ Now you can contnue build system until you finish chapter **8.34. Bash-5.1.16**
 LANG=en_US.UTF-8
 ````
 
-**Note:**" When you start build `python` as pacman package, make sure what you have mounted `/dev/shm` as it done in BLFS book, otherwise you can't
-build `js-91` package in BLFS book. I don't know is it bug related or host system (I'm using arch linux as host), but I strongly recommending you do this
-command to mount `/dev/shm` before you start building python:
+**Note:** When you start building `python` as pacman package, make sure what you have mounted `/dev/shm` as it done in BLFS book, otherwise you can't
+build `js-91` package later in BLFS book. I don't know is it bug related or host system (I'm using arch linux as host), but I'm strongly recommend you do this command to mount `/dev/shm` before you start building python:
 
 ````
 mount -t tmpfs devshm /dev/shm
