@@ -300,11 +300,11 @@ Change to package directory. Your first package will be linux-api-headers. Even 
 
 ````
 cd linux-api-headers
-cp ../../sources linux-5.16.9.tar.xz .
+cp ../../sources linux-5.19.2.tar.xz .
 su tester -c "PATH=$PATH LANG=$LANG makepkg -c"
-mv linux-api-headers-5.16.9-1-x86_64.pkg.tar.gz ..
+mv linux-api-headers-5.19.2-1-x86_64.pkg.tar.gz ..
 cd ..
-pacman -U linux-api-headers-5.16.9-1-x86_64.pkg.tar.gz --overwrite=*
+pacman -U linux-api-headers-5.19.9-2-x86_64.pkg.tar.gz --overwrite=*
 ````
 
 For second and rest packages follow book order. Instructions for building will stay same. First you need change to package directory and copy package tarball file. Next you envoke `makepkg` as example above, move builded pacman package to `/source/packages` directory and install it to final system.
@@ -412,11 +412,7 @@ Now you need build additional package `gnu-efi` which adds EFI support to system
 ```
 
 Build and install `systemd` package. Continue from chapter **8.72. D-Bus-1.12.20** to chapter **8.78. Stripping**. Skip chapter **8.79. Cleaning Up**.
-User **tester** still needed for package building, so keep him. You only need remove partial compiler:
-
-````
-find /usr -depth -name $(uname -m)-lfs-linux-gnu\* | xargs rm -rf
-````
+User **tester** still needed for package building, so keep him.
 
 Build and install packages for creating `ititramfs`:
 
