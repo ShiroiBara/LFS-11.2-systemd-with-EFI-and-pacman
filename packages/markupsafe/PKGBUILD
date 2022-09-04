@@ -1,6 +1,6 @@
 pkgname=markupsafe
 archive=MarkupSafe
-pkgver=2.0.1
+pkgver=2.1.1
 pkgrel=1
 pkgdesc="Implements a XML/HTML/XHTML Markup safe string for Python"
 arch=('x86_64')
@@ -18,7 +18,7 @@ prepare() {
 build() {
 
     cd "$srcdir/$archive-$pkgver"
-    python3 setup.py build
+    pip3 wheel -w dist --no-build-isolation --no-deps $PWD
 
 }
 
@@ -31,6 +31,6 @@ check() {
 package() {
 
     cd "$srcdir/$archive-$pkgver"
-    python3 setup.py install --root=$pkgdir --optimize=1
+    pip3 install --root=$pkgdir --no-index --no-user --find-links dist Markupsafe
 
 }
