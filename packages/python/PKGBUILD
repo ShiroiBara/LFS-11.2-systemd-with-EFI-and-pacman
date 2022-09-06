@@ -46,5 +46,10 @@ package() {
     --no-same-permissions \
     -C $pkgdir/usr/share/doc/python-3.10.6/html \
     -xvf ../../python-3.10.6-docs-html.tar.bz2
+    # Fixing broken symlinks. Thanks to arch linux community
+    ln -s python3               "${pkgdir}"/usr/bin/python
+    ln -s python3-config        "${pkgdir}"/usr/bin/python-config
+    ln -s idle3                 "${pkgdir}"/usr/bin/idle
+    ln -s pydoc3                "${pkgdir}"/usr/bin/pydoc
 
 }
