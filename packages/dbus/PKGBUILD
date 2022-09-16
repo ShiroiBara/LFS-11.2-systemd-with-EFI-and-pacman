@@ -38,10 +38,10 @@ check() {
 package() {
 
     cd $srcdir/$pkgname-$pkgver
-    install -vdm755 $pkgdir/var
-    install -vdm755 $pkgdir/run
-    ln -sfv /run $pkgdir/var/run
     make DESTDIR=$pkgdir install
+    # var/run is symlink to run. dbus package overwrite it and could
+    # broke it. Moving it to /run instead
+    mv $pkgdir/var/run $pkgdir/
     ln -sfv /etc/machine-id $pkgdir/var/lib/dbus
     
 }
