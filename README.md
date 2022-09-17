@@ -384,6 +384,15 @@ cp /etc/pacman.conf /etc/pacman.conf-back
 cp /etc/makepkg.conf /etc/makepkg.conf-back
 ````
 
+**Note:** I found a bug what pacman compiled in chroot as temporary tool, installs packages with wrong ownership and permissions. It might be
+dependencies related, I'm not sure yet. You need fix permissions and ownership after you install `fakeroot` as pacman's package:
+
+````
+chmod 755 /usr/bin/faked
+chmod 755 /usr/bin/fakeroot
+chown -R root:root /usr
+````
+
 Finally you can build pacman as it's own package and intall it as basic software. After finishing, don't forget restore your config files:
 
 ````
@@ -397,6 +406,9 @@ And restore `.config` files back:
 mv /etc/pacman.conf-back /etc/pacman.conf
 mv /etc/makepkg.conf-back /etc/makepkg.conf
 ````
+
+As soon as you will do it, there is no more issues with missing executable flag (644 instead of 755) and `tester:tester` ownership on files when
+using pacman.
 
 ## Stage 6
 
