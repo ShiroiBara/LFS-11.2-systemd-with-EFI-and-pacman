@@ -1,1 +1,14 @@
-
+{
+    "apiUri": "https://api.zaonce.net",
+    "watchForCrashes": false,
+    "language": "ru",
+    "autoUpdate": true,
+    "maxConcurrentDownloads": 4,
+    "forceUpdate": "",
+    "processes": [],
+    "filterOverrides": [
+        { "sku": "FORC-FDEV-DO-1000", "filter": "edo" },
+        { "sku": "FORC-FDEV-DO-38-IN-40", "filter": "edh4" }
+    ],
+    "additionalProducts": [{ "filter": "edh4", "directory": "elite-dangerous-odyssey-64", "serverargs": "", "gameargs": "SeasonTwo", "sortkey": "04", "product_name": "Elite Dangerous: Horizons (4.0)", "product_sku": "FORC-FDEV-DO-38-IN-40" }]
+}
